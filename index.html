@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A research-backed, interactive creative-income strategy from ₹25K/month to ownership.">
+  <title>Creative Income Command Center · 2026</title>
+  <style>
+    :root {
+      --ink: #13211d;
+      --muted: #66736e;
+      --paper: #f4f1e9;
+      --panel: #fffdf7;
+      --panel-2: #ebe7dc;
+      --line: #d8d3c6;
+      --green: #164f3d;
+      --green-2: #1f7557;
+      --mint: #cce6d8;
+      --amber: #d88c23;
+      --amber-soft: #fae7c8;
+      --red: #ad4139;
+      --red-soft: #f4d9d3;
+      --blue: #305f7a;
+      --blue-soft: #d7e7ef;
+      --shadow: 0 16px 48px rgba(27, 44, 37, .08);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --max: 1440px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font: 15px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: var(--green-2); text-underline-offset: 3px; }
+    a:hover { color: var(--green); }
+    h1, h2, h3, h4 { margin: 0; line-height: 1.08; letter-spacing: -.035em; }
+    h1 { max-width: 940px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.7rem, 7vw, 6.6rem); font-weight: 500; }
+    h2 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 500; }
+    h3 { font-size: 1.15rem; }
+    p { margin: .5rem 0 0; }
+    small { color: var(--muted); }
+    .skip-link { position: fixed; left: 12px; top: -60px; z-index: 100; padding: 10px 14px; background: var(--ink); color: white; border-radius: 8px; }
+    .skip-link:focus { top: 12px; }
+    .shell { width: min(calc(100% - 32px), var(--max)); margin: 0 auto; }
+    .topbar { position: sticky; top: 0; z-index: 40; border-bottom: 1px solid rgba(216,211,198,.75); background: rgba(244,241,233,.91); backdrop-filter: blur(16px); }
+    .topbar-inner { display: flex; align-items: center; gap: 18px; min-height: 64px; overflow: hidden; }
+    .brand { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; color: var(--ink); text-decoration: none; font-weight: 800; white-space: nowrap; }
+    .brand-mark { display: grid; place-items: center; width: 32px; height: 32px; color: white; background: var(--green); border-radius: 50%; font-size: 13px; }
+    .nav { display: flex; gap: 4px; flex: 1 1 auto; min-width: 0; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav a { padding: 8px 10px; color: var(--muted); border-radius: 8px; text-decoration: none; white-space: nowrap; font-size: 13px; font-weight: 700; }
+    .nav a:hover { color: var(--ink); background: var(--panel-2); }
+    .status-dot { width: 8px; height: 8px; margin-left: auto; flex: 0 0 auto; border-radius: 50%; background: var(--green-2); box-shadow: 0 0 0 5px rgba(31,117,87,.12); }
+    .hero { position: relative; padding: 90px 0 46px; overflow: hidden; }
+    .hero::after { content: ""; position: absolute; width: 420px; height: 420px; right: -180px; top: 0; z-index: -1; border: 1px solid var(--line); border-radius: 50%; box-shadow: inset 0 0 0 70px var(--paper), inset 0 0 0 71px var(--line), inset 0 0 0 140px var(--paper), inset 0 0 0 141px var(--line); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px; color: var(--green); font-size: 12px; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 26px; height: 2px; background: currentColor; }
+    .hero-copy { max-width: 810px; margin-top: 24px; color: #44514c; font-size: clamp(1rem, 2vw, 1.25rem); }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
+    .tag, .pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,253,247,.65); font-size: 12px; font-weight: 800; }
+    .hero-note { margin-top: 25px; padding-left: 14px; border-left: 3px solid var(--amber); color: var(--muted); font-size: 13px; }
+    .today-wrap { position: sticky; top: 64px; z-index: 35; padding: 10px 0; background: linear-gradient(var(--paper) 65%, transparent); }
+    .today { display: grid; grid-template-columns: 165px repeat(3, 1fr); gap: 10px; padding: 12px; border: 1px solid #235d48; border-radius: 16px; color: white; background: var(--green); box-shadow: var(--shadow); }
+    .today-label { display: flex; align-items: center; gap: 10px; padding: 6px 8px; font-size: 12px; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
+    .today-item { display: flex; align-items: center; gap: 10px; min-height: 50px; padding: 8px 10px; border-radius: 10px; background: rgba(255,255,255,.09); font-size: 13px; font-weight: 700; }
+    .today-num { display: grid; place-items: center; width: 26px; height: 26px; flex: 0 0 auto; color: var(--green); background: var(--mint); border-radius: 50%; font-size: 11px; font-weight: 900; }
+    section { padding: 76px 0; scroll-margin-top: 132px; }
+    section + section { border-top: 1px solid var(--line); }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin-bottom: 26px; }
+    .section-head > p { max-width: 620px; color: var(--muted); }
+    .grid { display: grid; gap: 16px; }
+    .grid > *, .strategy-tabs > *, .calc-grid > * { min-width: 0; }
+    .cols-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .cols-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .cols-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .card { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); box-shadow: 0 6px 24px rgba(27,44,37,.035); }
+    .card-flat { box-shadow: none; }
+    .card-kicker { display: block; margin-bottom: 8px; color: var(--muted); font-size: 11px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+    .metric { font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 4vw, 3.3rem); line-height: 1; letter-spacing: -.045em; }
+    .metric small { font: 700 12px/1.2 Inter, sans-serif; letter-spacing: 0; }
+    .metric-row { display: flex; align-items: end; justify-content: space-between; gap: 8px; }
+    .delta { color: var(--green-2); font-size: 12px; font-weight: 800; }
+    .progress { height: 8px; margin-top: 16px; overflow: hidden; border-radius: 999px; background: var(--panel-2); }
+    .progress > span { display: block; height: 100%; border-radius: inherit; background: var(--green-2); }
+    .callout { padding: 22px; border-radius: var(--radius); background: var(--ink); color: white; }
+    .callout p, .callout small { color: #c8d0cc; }
+    .callout strong { color: #f5cc85; }
+    .income-ladder { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); margin-top: 24px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .rung { position: relative; min-height: 178px; padding: 20px 16px; background: var(--panel); }
+    .rung + .rung { border-left: 1px solid var(--line); }
+    .rung.active { color: white; background: var(--green); }
+    .rung-index { color: var(--muted); font-size: 11px; font-weight: 900; }
+    .rung.active .rung-index, .rung.active p { color: #cce2d9; }
+    .rung-amount { margin-top: 34px; font: 500 clamp(1.45rem,2.4vw,2.2rem)/1 Georgia, serif; }
+    .rung p { color: var(--muted); font-size: 12px; }
+    .rung-arrow { position: absolute; right: -11px; top: 50%; z-index: 2; display: grid; place-items: center; width: 22px; height: 22px; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); background: var(--paper); font-size: 11px; }
+    .strategy-tabs { display: grid; grid-template-columns: 270px 1fr; gap: 18px; }
+    .tab-list { display: flex; flex-direction: column; gap: 8px; }
+    .tab-button { width: 100%; padding: 15px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: var(--panel); text-align: left; cursor: pointer; transition: .18s ease; }
+    .tab-button:hover, .tab-button.active { transform: translateX(3px); border-color: var(--green); background: var(--mint); }
+    .tab-button small { display: block; margin-top: 3px; }
+    .tab-panel { min-height: 460px; }
+    .tab-panel h3 { font: 500 clamp(1.8rem,3vw,2.7rem)/1.1 Georgia, serif; }
+    .offer { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 14px 0; border-top: 1px solid var(--line); }
+    .offer:first-of-type { margin-top: 20px; }
+    .offer-price { color: var(--green); font-weight: 900; white-space: nowrap; }
+    .bullet-list { margin: 15px 0 0; padding-left: 18px; }
+    .bullet-list li { margin: 5px 0; }
+    .badge { display: inline-flex; padding: 4px 7px; border-radius: 6px; font-size: 10px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+    .badge.fact { color: var(--green); background: var(--mint); }
+    .badge.estimate { color: #7a4b05; background: var(--amber-soft); }
+    .badge.risk { color: var(--red); background: var(--red-soft); }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .field { display: grid; gap: 6px; }
+    label { color: var(--muted); font-size: 12px; font-weight: 800; }
+    input, select, textarea { width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); background: var(--panel); outline: none; }
+    input:focus, select:focus, textarea:focus { border-color: var(--green-2); box-shadow: 0 0 0 3px rgba(31,117,87,.12); }
+    textarea { min-height: 86px; resize: vertical; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 8px; min-height: 42px; padding: 9px 14px; border: 1px solid var(--ink); border-radius: 10px; color: white; background: var(--ink); cursor: pointer; font-weight: 800; text-decoration: none; }
+    .btn:hover { background: var(--green); border-color: var(--green); color: white; }
+    .btn.secondary { color: var(--ink); background: transparent; border-color: var(--line); }
+    .btn.secondary:hover { background: var(--panel-2); }
+    .btn.danger { color: var(--red); background: transparent; border-color: #dfaaa4; }
+    .btn.small { min-height: 34px; padding: 6px 10px; font-size: 12px; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { position: sticky; top: 0; z-index: 1; color: var(--muted); background: #f0ede4; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; cursor: default; }
+    th.sortable { cursor: pointer; }
+    th.sortable:hover { color: var(--green); }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #faf8f1; }
+    td strong { display: block; }
+    .score { display: inline-grid; place-items: center; min-width: 44px; padding: 5px 8px; border-radius: 9px; color: white; background: var(--green); font-weight: 900; }
+    .score.medium { color: #704607; background: var(--amber-soft); }
+    .score.low { color: var(--red); background: var(--red-soft); }
+    .criteria-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-top: 16px; }
+    .criterion { padding: 10px; border-radius: 10px; background: var(--panel-2); }
+    .criterion span { display: block; color: var(--muted); font-size: 10px; font-weight: 800; }
+    .criterion b { font-size: 18px; }
+    .funnel { display: flex; align-items: stretch; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+    .funnel-step { min-width: 150px; flex: 1; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+    .funnel-step b { display: block; font: 500 1.5rem Georgia, serif; }
+    .funnel-arrow { align-self: center; color: var(--muted); }
+    .niche-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .chip { padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--panel); cursor: pointer; font-size: 12px; font-weight: 800; }
+    .chip.active, .chip:hover { color: white; border-color: var(--green); background: var(--green); }
+    .niche-card { min-height: 190px; }
+    .niche-card .niche-rank { float: right; color: var(--muted); font: 500 2rem Georgia, serif; }
+    .niche-card[hidden] { display: none; }
+    .mission-meta { display: flex; gap: 10px; margin-top: 10px; color: var(--muted); font-size: 11px; }
+    .mission-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .day-card { position: relative; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); }
+    .day-card.done { opacity: .7; background: var(--mint); }
+    .day-card.done h3 { text-decoration: line-through; }
+    .day-head { display: flex; justify-content: space-between; gap: 10px; }
+    .day-check { width: 24px; height: 24px; accent-color: var(--green); cursor: pointer; }
+    .day-deliverable { margin-top: 12px; padding: 10px; border-radius: 10px; background: var(--panel-2); font-size: 12px; }
+    .roadmap { position: relative; display: grid; gap: 12px; }
+    .roadmap::before { content: ""; position: absolute; left: 21px; top: 25px; bottom: 25px; width: 2px; background: var(--line); }
+    .roadmap-item { position: relative; display: grid; grid-template-columns: 44px 1fr; gap: 14px; }
+    .roadmap-dot { z-index: 1; display: grid; place-items: center; width: 44px; height: 44px; border: 2px solid var(--paper); border-radius: 50%; color: white; background: var(--green); font-weight: 900; }
+    .roadmap-card { cursor: pointer; }
+    .roadmap-card .roadmap-detail { display: none; }
+    .roadmap-card.open .roadmap-detail { display: block; }
+    .roadmap-card h3::after { content: "+"; float: right; color: var(--muted); }
+    .roadmap-card.open h3::after { content: "−"; }
+    .calc-grid { display: grid; grid-template-columns: 1fr .85fr; gap: 18px; }
+    .form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+    .result-box { display: grid; align-content: center; min-height: 100%; padding: 24px; border-radius: var(--radius); color: white; background: var(--green); }
+    .result-lines { margin-top: 20px; }
+    .result-line { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,.18); }
+    .result-line.final { border: 0; font-size: 1.15rem; font-weight: 900; }
+    .tracker-form { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; margin-bottom: 16px; }
+    .tracker-form .span-2 { grid-column: span 2; }
+    .empty { padding: 32px; color: var(--muted); text-align: center; }
+    .kanban { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
+    .kanban-col { padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,253,247,.55); }
+    .kanban-title { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 12px; font-weight: 900; text-transform: uppercase; }
+    .skill-item, .portfolio-item { margin-top: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+    .skill-item label { display: flex; align-items: start; gap: 9px; color: var(--ink); cursor: pointer; }
+    .skill-item input { width: 18px; min-height: 18px; accent-color: var(--green); }
+    .portfolio-item select, .portfolio-item input { margin-top: 7px; }
+    .chart { min-height: 330px; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+    .chart svg { width: 100%; height: 260px; overflow: visible; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6px; color: var(--muted); font-size: 11px; }
+    .legend-dot { display: inline-block; width: 9px; height: 9px; margin-right: 5px; border-radius: 50%; }
+    .decision-card { min-height: 310px; display: grid; align-content: center; justify-items: center; text-align: center; }
+    .decision-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 22px; }
+    .decision-result { max-width: 650px; }
+    .risk-row { display: grid; grid-template-columns: 130px 1fr 1fr; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .risk-row:last-child { border: 0; }
+    .risk-level { font-weight: 900; }
+    .risk-level.high { color: var(--red); }
+    .risk-level.medium { color: #91600d; }
+    .source-list { display: grid; gap: 10px; }
+    .source { display: grid; grid-template-columns: 110px 1fr 1.5fr; gap: 16px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+    .source a { font-weight: 800; }
+    .assumption-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .assumption-panel { display: none; }
+    .assumption-panel.active { display: block; }
+    details { border-top: 1px solid var(--line); }
+    details:first-child { border-top: 0; }
+    summary { padding: 14px 0; cursor: pointer; font-weight: 850; }
+    details p { margin: 0 0 14px; color: var(--muted); }
+    .footer { padding: 42px 0 70px; color: var(--muted); border-top: 1px solid var(--line); }
+    .footer-grid { display: flex; justify-content: space-between; gap: 24px; }
+    .toast { position: fixed; right: 18px; bottom: 18px; z-index: 100; transform: translateY(120px); padding: 12px 16px; border-radius: 10px; color: white; background: var(--ink); box-shadow: var(--shadow); transition: transform .25s ease; }
+    .toast.show { transform: translateY(0); }
+    .only-mobile { display: none; }
+    @media (max-width: 1000px) {
+      .today { grid-template-columns: 130px 1fr; }
+      .today-item:nth-of-type(2), .today-item:nth-of-type(3) { grid-column: 2; }
+      .income-ladder { grid-template-columns: repeat(3,1fr); }
+      .rung:nth-child(4) { border-left: 0; border-top: 1px solid var(--line); }
+      .rung:nth-child(5), .rung:nth-child(6) { border-top: 1px solid var(--line); }
+      .strategy-tabs { grid-template-columns: 1fr; }
+      .tab-list { flex-direction: row; overflow-x: auto; }
+      .tab-button { min-width: 225px; }
+      .mission-grid { grid-template-columns: repeat(2,1fr); }
+      .cols-4 { grid-template-columns: repeat(2,1fr); }
+      .tracker-form { grid-template-columns: repeat(2,1fr); }
+      .source { grid-template-columns: 100px 1fr; }
+      .source > :last-child { grid-column: 2; }
+    }
+    @media (max-width: 720px) {
+      .shell { width: min(calc(100% - 20px), var(--max)); }
+      .topbar-inner { min-height: 56px; }
+      .brand span:last-child, .status-dot { display: none; }
+      .nav { margin-left: -4px; }
+      .hero { padding-top: 60px; }
+      .today-wrap { position: static; }
+      .today { grid-template-columns: 1fr; }
+      .today-item:nth-of-type(2), .today-item:nth-of-type(3) { grid-column: auto; }
+      section { padding: 55px 0; scroll-margin-top: 58px; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 10px; }
+      .cols-2, .cols-3, .cols-4, .mission-grid, .calc-grid, .kanban { grid-template-columns: 1fr; }
+      .income-ladder { grid-template-columns: repeat(2,1fr); }
+      .rung:nth-child(3), .rung:nth-child(5) { border-left: 0; }
+      .rung:nth-child(3) { border-top: 1px solid var(--line); }
+      .rung:nth-child(4) { border-left: 1px solid var(--line); }
+      .criteria-grid { grid-template-columns: repeat(2,1fr); }
+      .form-grid, .tracker-form { grid-template-columns: 1fr; }
+      .offer { grid-template-columns: 1fr; }
+      .offer-price { text-align: left; white-space: normal; }
+      .tracker-form .span-2 { grid-column: auto; }
+      .risk-row { grid-template-columns: 1fr; gap: 5px; }
+      .source { grid-template-columns: 1fr; gap: 6px; }
+      .source > :last-child { grid-column: auto; }
+      .footer-grid { display: block; }
+      .only-mobile { display: inline; }
+    }
+    @media print {
+      .topbar, .today-wrap, .toolbar, button, form, .toast { display: none !important; }
+      body { background: white; }
+      section { padding: 32px 0; break-inside: avoid; }
+      .card, .table-wrap { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to strategy</a>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="#top"><span class="brand-mark">CC</span><span>Creative Command Center</span></a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#dashboard">Dashboard</a><a href="#strategy">Strategy</a><a href="#opportunities">Matrix</a><a href="#mission">30 days</a><a href="#calculator">Calculator</a><a href="#trackers">Trackers</a><a href="#roadmap">Roadmap</a><a href="#sources">Sources</a>
+      </nav>
+      <span class="status-dot" title="Local-only application"></span>
+    </div>
+  </header>
+
+  <main id="main">
+    <div id="top" class="hero shell">
+      <span class="eyebrow">Strategy date · 14 September 2026</span>
+      <h1>Turn technical fluency into a creative economic engine.</h1>
+      <p class="hero-copy">A probability-adjusted plan to move from ₹25K/month toward global creative income—without teaching, becoming an influencer, or making your face the product.</p>
+      <div class="hero-tags">
+        <span class="tag">Primary: product-launch creative systems</span>
+        <span class="tag">Secondary: creative workflow automation</span>
+        <span class="tag">Long term: workflow software + original IP</span>
+      </div>
+      <p class="hero-note"><strong>No guarantee.</strong> The income ranges are conditional estimates. Client demand, craft, sales, delivery, timing and luck matter. The strategy is designed to make the odds improvable through execution.</p>
+    </div>
+
+    <div class="today-wrap">
+      <div class="shell today" aria-label="Do this today">
+        <div class="today-label">Do this today</div>
+        <div class="today-item"><span class="today-num">1</span><span>Block 60 minutes and define your weekly 11-hour side-business schedule.</span></div>
+        <div class="today-item"><span class="today-num">2</span><span>List 10 recently launched B2B SaaS/AI products with weak visual storytelling.</span></div>
+        <div class="today-item"><span class="today-num">3</span><span>Write the fixed scope for a $650 “Feature Launch Loop”—no tools purchased yet.</span></div>
+      </div>
+    </div>
+
+    <section id="dashboard">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">01 · Dashboard</span><h2>Your economic control panel</h2></div><p>The next milestone is not “become successful.” It is one paid, tightly scoped global creative pilot that proves somebody values the outcome.</p></div>
+        <div class="grid cols-4">
+          <article class="card"><span class="card-kicker">Current monthly income</span><div class="metric-row"><div class="metric">₹25K</div><span class="pill">Salary</span></div><div class="progress"><span style="width:25%"></span></div><small>Keep as runway while evidence is weak.</small></article>
+          <article class="card"><span class="card-kicker">Next target</span><div class="metric-row"><div class="metric">₹50K</div><span class="delta">+₹25K gap</span></div><div class="progress"><span style="width:50%"></span></div><small>One $650 launch loop ≈ ₹58.5K gross at ₹90/$.</small></article>
+          <article class="card"><span class="card-kicker">Current stage</span><div class="metric">Validate</div><div class="progress"><span style="width:12%"></span></div><small>Proof → pilot → repeat → standardize → own.</small></article>
+          <article class="card"><span class="card-kicker">Highest-value action</span><div class="metric">Sell</div><div class="progress"><span style="width:8%"></span></div><small>Start outreach after 3 proof pieces—not after “mastery.”</small></article>
+        </div>
+        <div class="income-ladder" aria-label="Income ladder">
+          <div class="rung active"><span class="rung-index">NOW</span><div class="rung-amount">₹25K</div><p>Salary runway</p><span class="rung-arrow">→</span></div>
+          <div class="rung"><span class="rung-index">STAGE 1</span><div class="rung-amount">₹50K</div><p>1 paid global pilot / month</p><span class="rung-arrow">→</span></div>
+          <div class="rung"><span class="rung-index">STAGE 2</span><div class="rung-amount">₹1L</div><p>1 product-story sprint / month</p><span class="rung-arrow">→</span></div>
+          <div class="rung"><span class="rung-index">STAGE 3</span><div class="rung-amount">₹2L</div><p>2 sprints or retainer + sprint</p><span class="rung-arrow">→</span></div>
+          <div class="rung"><span class="rung-index">STAGE 4</span><div class="rung-amount">₹5L</div><p>Team + retainers + product</p><span class="rung-arrow">→</span></div>
+          <div class="rung"><span class="rung-index">OWNERSHIP</span><div class="rung-amount">₹10L+</div><p>Software, IP, assets—not hours alone</p></div>
+        </div>
+        <div class="grid cols-3" style="margin-top:16px">
+          <article class="callout"><span class="card-kicker">Primary recommendation</span><h3>Faceless Product-Launch Creative Systems</h3><p>Build product films, launch loops and channel-native variants for B2B SaaS/AI firms. Sell clarity, creative judgment and a repeatable system—not “AI videos.”</p></article>
+          <article class="card"><span class="card-kicker">Probability estimate · month 12</span><div class="offer"><span>₹50K sustained gross</span><b class="offer-price">55–70%</b></div><div class="offer"><span>₹1L sustained gross</span><b class="offer-price">30–45%</b></div><div class="offer"><span>₹5L sustained gross</span><b class="offer-price">2–6%</b></div><small>Assumes 10–13 focused hours/week, 500 targeted contacts, solid proof and consistent delivery. Judgment ranges—not measured base rates.</small></article>
+          <article class="card"><span class="card-kicker">Critical strategic rule</span><div class="metric">Cash → truth → asset</div><p>Services buy customer access. Repeated pain reveals automation. Paid validation earns the right to build software. Original IP stays a capped experiment until demand appears.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="strategy">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">02 · Strategy explorer</span><h2>One coherent ladder, not seven side hustles</h2></div><p>Click each strategy to inspect the buyer, offer, economics, assumptions and gate. The order matters: cash first, ownership second, speculation last.</p></div>
+        <div class="strategy-tabs">
+          <div class="tab-list" role="tablist">
+            <button class="tab-button active" data-strategy="primary" role="tab"><strong>1 · Primary cash engine</strong><small>Product-launch creative systems</small></button>
+            <button class="tab-button" data-strategy="secondary" role="tab"><strong>2 · Secondary hedge</strong><small>Creative workflow automation</small></button>
+            <button class="tab-button" data-strategy="longterm" role="tab"><strong>3 · Owned upside</strong><small>Workflow plugin / micro-SaaS</small></button>
+            <button class="tab-button" data-strategy="ip" role="tab"><strong>4 · Capped creative option</strong><small>Original comedy character IP</small></button>
+            <button class="tab-button" data-strategy="employment" role="tab"><strong>5 · Runway upgrade</strong><small>Creative-tech / AI solutions role</small></button>
+          </div>
+          <article id="strategyPanel" class="card tab-panel" aria-live="polite"></article>
+        </div>
+
+        <div class="grid cols-2" style="margin-top:18px">
+          <article class="card"><span class="card-kicker">Differentiation</span><h3>Do not say: “I make AI videos.”</h3><p style="font-size:1.2rem"><strong>Say:</strong> “I turn one B2B product launch into a visual testing system—product story, motion, channel-ready cutdowns, version control and a reusable production workflow.”</p><ul class="bullet-list"><li>Buyer: product marketing / founder / creative lead</li><li>Problem: a strong feature is explained but not visually understood</li><li>Outcome: more launch-ready creative, faster and more consistently</li><li>Proof: storyboard logic, variants, rights log, turnaround—not fake metrics</li></ul></article>
+          <article class="card"><span class="card-kicker">Model evolution</span><div class="funnel"><div class="funnel-step"><small>Stage 1</small><b>Do</b><span>Fixed-scope sprints</span></div><span class="funnel-arrow">→</span><div class="funnel-step"><small>Stage 2</small><b>Standardize</b><span>Templates, QA, approvals</span></div><span class="funnel-arrow">→</span><div class="funnel-step"><small>Stage 3</small><b>Automate</b><span>Internal workflow tools</span></div></div><div class="funnel" style="margin-top:8px"><div class="funnel-step"><small>Stage 4</small><b>Delegate</b><span>Contractor production</span></div><span class="funnel-arrow">→</span><div class="funnel-step"><small>Stage 5</small><b>Own</b><span>Software, benchmarks, IP</span></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="opportunities">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">03 · Opportunity matrix</span><h2>25 paths, aggressively ranked</h2></div><p>Scores use 18 weighted criteria. High numbers indicate better fit for this profile—not certainty. Click a row to inspect every criterion.</p></div>
+        <div class="card card-flat" style="margin-bottom:16px">
+          <span class="card-kicker">Weighting · total 100</span>
+          <p><strong>Speed to paid validation 8 · skill adjacency 8 · demand 7 · low capital 7 · job compatibility 7 · downside safety 6 · willingness to pay 6 · repeat revenue 6 ·</strong> creative fit 5 · faceless fit 5 · distribution 5 · India/global access 5 · margin 5 · customer ownership 4 · platform independence 4 · career leverage 4 · defensibility/IP 4 · scalability 4.</p>
+        </div>
+        <div class="toolbar">
+          <div class="field"><label for="oppSearch">Search</label><input id="oppSearch" type="search" placeholder="e.g. animation, SaaS"></div>
+          <div class="field"><label for="oppTier">Elimination tier</label><select id="oppTier"><option value="all">All 25</option><option value="top3">Portfolio Top 3</option><option value="top5">Raw Top 5</option><option value="top10">Top 10</option><option value="top20">Top 20</option><option value="excluded">Eliminated</option></select></div>
+          <div class="field"><label for="oppType">Business model</label><select id="oppType"><option value="all">All models</option><option>Service</option><option>Employment</option><option>Software</option><option>Product</option><option>Media/IP</option></select></div>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th class="sortable" data-sort="rank">Rank ↕</th><th>Opportunity</th><th>Model</th><th class="sortable" data-sort="score">Weighted score ↕</th><th>₹1L odds</th><th>₹5L odds</th><th>Verdict</th></tr></thead><tbody id="opportunityBody"></tbody></table></div>
+        <article id="opportunityDetail" class="card" style="margin-top:14px"><p class="empty">Select an opportunity row to see all 18 scores and the reasoning.</p></article>
+        <div class="grid cols-4" style="margin-top:16px">
+          <article class="card"><span class="card-kicker">Top 20</span><h3>Remove the weakest bets</h3><p>Exclude 3D packs, faceless channel, browser game, stock and premium game from the core plan.</p></article>
+          <article class="card"><span class="card-kicker">Top 10</span><h3>Favor paid B2B proof</h3><p>Creative systems, motion, demos, automation and tightly scoped production remain.</p></article>
+          <article class="card"><span class="card-kicker">Top 5</span><h3>Merge overlapping SKUs</h3><p>Demo video, launch motion, UI motion and variants become one studio—not four businesses.</p></article>
+          <article class="callout"><span class="card-kicker">Portfolio Top 3</span><h3>Service → Automation → Software</h3><p>Different time horizons, one customer learning loop.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="niches">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">04 · Creative niche explorer</span><h2>Where creativity is economically useful</h2></div><p>Creativity is not limited to art. The strongest niches pair aesthetic judgment with an expensive business workflow.</p></div>
+        <div id="nicheFilters" class="niche-filter" aria-label="Niche filters"></div>
+        <div id="nicheGrid" class="grid cols-3"></div>
+      </div>
+    </section>
+
+    <section id="mission">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">05 · 30-day mission board</span><h2>Proof before perfection</h2></div><div><strong id="missionProgressText">0 / 30 complete</strong><div class="progress" style="width:220px"><span id="missionProgressBar" style="width:0%"></span></div></div></div>
+        <div class="toolbar"><button id="showAllDays" class="btn small">All days</button><button id="showOpenDays" class="btn secondary small">Open only</button><button id="resetMission" class="btn danger small">Reset mission</button></div>
+        <div id="missionGrid" class="grid mission-grid"></div>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">06 · 12-month roadmap</span><h2>Release capital only after evidence</h2></div><p>Each month has a numeric gate. If the gate fails, change the hypothesis before adding tools, hours or features.</p></div>
+        <div id="roadmapList" class="roadmap"></div>
+        <div class="grid cols-2" style="margin-top:24px">
+          <article class="card"><span class="card-kicker">Realistic full-time weekly schedule</span><div class="offer"><span>Monday · lead research + 10 messages</span><b>1h</b></div><div class="offer"><span>Tuesday · production</span><b>1.5h</b></div><div class="offer"><span>Wednesday · no side work</span><b>Rest</b></div><div class="offer"><span>Thursday · automation/product discovery</span><b>1.5h</b></div><div class="offer"><span>Friday · follow-up + finance</span><b>45m</b></div><div class="offer"><span>Saturday · deep production</span><b>4h</b></div><div class="offer"><span>Sunday · IP 2h + outreach/planning 1h45m</span><b>3h45m</b></div><p><strong>Total: 11h30m/week.</strong> If sleep or work performance declines for two weeks, remove the IP block first.</p></article>
+          <article class="card"><span class="card-kicker">Quit / switch / hire gates</span><details open><summary>When to switch jobs</summary><p>After 3 polished cases + 2 paid outcomes + workflow proof, run a 30-application experiment. Switch only for materially higher pay and better creative/technical optionality; planning target ₹6L+ annual, not a guarantee.</p></details><details><summary>When to quit</summary><p>All must pass: 6 months operating profit ≥2× essential expenses and ≥1.5× current take-home; 6–9 months personal runway; credible 3-month pipeline; no client above 35%; compliance and payment route working.</p></details><details><summary>When to hire</summary><p>Backlog over 2 weeks for 6 weeks, founder utilization over 70%, repeatable SOP, and contractor leaves at least 55–60% gross margin. Start per project.</p></details><details><summary>When to build a product</summary><p>The same paid pain appears in 8+ interviews, 3 paid design partners or 5 real deposits exist, MVP is ≤12 weeks, variable cost is <20%, and one acquisition channel is reachable.</p></details></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculator">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">07 · Revenue calculator</span><h2>Model gross, cost and cash reserve</h2></div><p>Use collected revenue—not proposal value. The “tax reserve” is prudent cash separation, not a calculation of legal liability or tax advice.</p></div>
+        <div class="calc-grid">
+          <form id="revenueForm" class="card" onsubmit="return false">
+            <div class="form-grid">
+              <div class="field"><label for="clients">Retainer clients</label><input id="clients" type="number" min="0" value="1"></div>
+              <div class="field"><label for="clientPrice">Monthly price / client (₹)</label><input id="clientPrice" type="number" min="0" value="90000"></div>
+              <div class="field"><label for="projects">One-off projects</label><input id="projects" type="number" min="0" value="1"></div>
+              <div class="field"><label for="projectPrice">Average project price (₹)</label><input id="projectPrice" type="number" min="0" value="58500"></div>
+              <div class="field"><label for="productSales">Digital product sales</label><input id="productSales" type="number" min="0" value="0"></div>
+              <div class="field"><label for="productPrice">Price / sale (₹)</label><input id="productPrice" type="number" min="0" value="2500"></div>
+              <div class="field"><label for="subscriptions">Software subscribers</label><input id="subscriptions" type="number" min="0" value="0"></div>
+              <div class="field"><label for="subPrice">Price / subscriber (₹)</label><input id="subPrice" type="number" min="0" value="1800"></div>
+              <div class="field"><label for="feeRate">Collection/platform fee (%)</label><input id="feeRate" type="number" min="0" max="100" step=".1" value="2"></div>
+              <div class="field"><label for="contractorRate">Contractors (% of gross)</label><input id="contractorRate" type="number" min="0" max="100" step=".1" value="12"></div>
+              <div class="field"><label for="fixedExpenses">Software + fixed expenses (₹)</label><input id="fixedExpenses" type="number" min="0" value="12000"></div>
+              <div class="field"><label for="taxReserve">Planning tax reserve (%)</label><input id="taxReserve" type="number" min="0" max="100" step=".1" value="28"></div>
+            </div>
+          </form>
+          <aside class="result-box" aria-live="polite">
+            <span class="card-kicker" style="color:#b8d4c9">Monthly estimate</span><div id="netResult" class="metric">₹0</div><small style="color:#d8e8e1">Cash after operating costs and separate planning reserve</small><div id="calcLines" class="result-lines"></div>
+          </aside>
+        </div>
+        <div class="grid cols-4" style="margin-top:18px">
+          <article class="card"><span class="card-kicker">₹50K gross</span><h3>1 × Feature Launch Loop</h3><p>$650 × ₹90 = ₹58,500 gross. Estimated cash after 2% collection, ₹5.5K costs and 25% reserve ≈ ₹38.9K.</p></article>
+          <article class="card"><span class="card-kicker">₹1L gross</span><h3>1 × Product Story Sprint</h3><p>$1,250 × ₹90 = ₹112,500 gross. A single premium sprint can cross the gross target; sales consistency is the hard part.</p></article>
+          <article class="card"><span class="card-kicker">₹2L gross</span><h3>2 × Product Story Sprints</h3><p>₹225K gross; base scenario operating profit before reserve ≈ ₹179.5K with 12% contractor cost.</p></article>
+          <article class="card"><span class="card-kicker">₹5L+ gross</span><h3>2 retainers + 2 sprints</h3><p>$4K retainers + $2.5K sprints = ₹585K gross. Requires delegation; modeled cash after 30% reserve ≈ ₹298K.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="acquisition">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">08 · Client acquisition system</span><h2>Borrow demand; do not wait for an audience</h2></div><p>Target a visible trigger, identify one communication gap, show a 4–6 second direction, and sell a fixed outcome. Manual and relevant—not spam.</p></div>
+        <div class="funnel">
+          <div class="funnel-step"><small>Weekly input</small><b>25</b><span>qualified new accounts</span></div><span class="funnel-arrow">→</span><div class="funnel-step"><small>Cadence</small><b>3</b><span>follow-ups on days 3, 7, 14</span></div><span class="funnel-arrow">→</span><div class="funnel-step"><small>100-contact estimate</small><b>5–10</b><span>positive replies</span></div><span class="funnel-arrow">→</span><div class="funnel-step"><small>Estimated result</small><b>.4–2.1</b><span>clients / 100 contacts</span></div>
+        </div>
+        <div class="grid cols-3" style="margin-top:18px">
+          <article class="card"><span class="card-kicker">Ideal customer</span><h3>B2B SaaS / AI / devtool</h3><ul class="bullet-list"><li>10–100 employees</li><li>Launch, funding or changelog in last 60 days</li><li>$50–$500/month product</li><li>Weak/no motion demonstration</li><li>US, UK, Canada, EU, Singapore, Australia</li></ul></article>
+          <article class="card"><span class="card-kicker">Exact opening message</span><p>“Your <strong>[feature]</strong> page explains <strong>[benefit]</strong>, but the first screen never shows <strong>[specific action]</strong>. I mocked a 6-second silent direction: <strong>[link]</strong>. I can deliver a 20-second launch loop + three cutdowns in five business days for <strong>$650 fixed</strong>, using only approved UI/assets. Worth sending the storyboard?”</p></article>
+          <article class="card"><span class="card-kicker">Convert to recurring</span><h3>Sprint → evidence → retainer</h3><ol class="bullet-list"><li>Freeze storyboard before production.</li><li>Deliver named, organized variants.</li><li>Record what slowed approvals.</li><li>Propose a 3-month launch content system only after success.</li><li>Automate the repeated bottleneck.</li></ol></article>
+        </div>
+        <div class="grid cols-2" style="margin-top:18px">
+          <article class="card"><span class="card-kicker">International price architecture · estimates</span><div class="table-wrap"><table><thead><tr><th>Offer</th><th>India</th><th>US</th><th>UK / EU</th></tr></thead><tbody><tr><td>Launch loop + cutdowns</td><td>₹25K–₹55K</td><td>$650–$1,200</td><td>£500–£950 / €600–€1,100</td></tr><tr><td>Product-story sprint</td><td>₹60K–₹1.2L</td><td>$1,250–$3,000</td><td>£1K–£2.4K / €1.2K–€2.8K</td></tr><tr><td>Monthly content system</td><td>₹90K–₹2L</td><td>$2K–$5K</td><td>£1.6K–£4K / €1.9K–€4.6K</td></tr><tr><td>Automation build</td><td>₹75K–₹2L</td><td>$1.5K–$4K</td><td>£1.2K–£3.2K / €1.4K–€3.7K</td></tr></tbody></table></div><small>These are offer-design estimates informed by mature contractor benchmarks, not published beginner averages. Purchasing power does not justify weak quality.</small></article>
+          <article class="card"><span class="card-kicker">Commercial safety</span><ul class="bullet-list"><li>First $650 pilot: 100% upfront. Above $1K: 50% upfront, 50% before source-file handoff.</li><li>One included revision; new scenes/formats are change orders.</li><li>Client warrants rights to supplied UI, logos, footage and claims.</li><li>Written consent for cloned/synthetic voices or likenesses.</li><li>Invoice in Zoho; Wise if eligible, Payoneer/direct transfer fallback.</li><li>Keep contract, invoice, remittance/eFIRC, bank and fee records.</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="trackers">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">09 · Operating trackers</span><h2>Evidence lives here</h2></div><p>All entries stay in this browser using localStorage. Export client data before clearing browser data. No information is sent anywhere.</p></div>
+        <article class="card">
+          <div class="section-head" style="margin-bottom:16px"><div><span class="card-kicker">Client acquisition tracker</span><h3>Prospects and revenue</h3></div><button id="exportProspects" class="btn secondary small">Export CSV</button></div>
+          <form id="prospectForm" class="tracker-form">
+            <div class="field"><label for="pName">Prospect / company</label><input id="pName" required placeholder="Acme AI"></div>
+            <div class="field"><label for="pCountry">Country</label><input id="pCountry" required placeholder="US"></div>
+            <div class="field"><label for="pService">Service</label><select id="pService"><option>Feature Launch Loop</option><option>Product Story Sprint</option><option>Content System</option><option>Automation Build</option></select></div>
+            <div class="field"><label for="pDate">First contact</label><input id="pDate" required type="date"></div>
+            <div class="field"><label for="pStatus">Stage</label><select id="pStatus"><option>Contacted</option><option>Responded</option><option>Meeting</option><option>Proposal</option><option>Won</option><option>Lost</option></select></div>
+            <div class="field"><label for="pRevenue">Revenue ₹</label><input id="pRevenue" type="number" min="0" value="0"></div>
+            <div class="field span-2"><label for="pNext">Next action / date</label><input id="pNext" placeholder="Follow up 2026-09-21"></div>
+            <button class="btn" type="submit">Add prospect</button>
+          </form>
+          <div class="table-wrap"><table><thead><tr><th>Prospect</th><th>Country</th><th>Service</th><th>Date</th><th>Stage</th><th>Next action</th><th>Revenue</th><th></th></tr></thead><tbody id="prospectBody"></tbody></table></div>
+          <div id="prospectSummary" class="hero-tags"></div>
+        </article>
+
+        <div class="grid cols-2" style="margin-top:18px">
+          <article class="card"><span class="card-kicker">Skill tracker</span><h3>Current → Next → Advanced</h3><div id="skillBoard" class="kanban" style="margin-top:14px"></div></article>
+          <article class="card"><span class="card-kicker">Portfolio tracker</span><h3>Commercial proof, not random exercises</h3><div id="portfolioBoard"></div><button id="addPortfolio" class="btn secondary small" style="margin-top:12px">Add project</button></article>
+        </div>
+
+        <article class="card" style="margin-top:18px"><span class="card-kicker">Weekly accountability dashboard</span><div class="grid cols-4"><div class="field"><label for="kpiHours">Focused hours</label><input class="kpi-input" id="kpiHours" type="number" min="0" placeholder="11.5"></div><div class="field"><label for="kpiAssets">Assets shipped</label><input class="kpi-input" id="kpiAssets" type="number" min="0"></div><div class="field"><label for="kpiProspects">New prospects</label><input class="kpi-input" id="kpiProspects" type="number" min="0" placeholder="25"></div><div class="field"><label for="kpiProposals">Proposals</label><input class="kpi-input" id="kpiProposals" type="number" min="0"></div><div class="field"><label for="kpiCalls">Calls</label><input class="kpi-input" id="kpiCalls" type="number" min="0"></div><div class="field"><label for="kpiClients">Clients won</label><input class="kpi-input" id="kpiClients" type="number" min="0"></div><div class="field"><label for="kpiRevenue">Collected revenue ₹</label><input class="kpi-input" id="kpiRevenue" type="number" min="0"></div><div class="field"><label for="kpiRecurring">Recurring revenue ₹</label><input class="kpi-input" id="kpiRecurring" type="number" min="0"></div></div><p id="kpiSignal" style="margin-top:14px"></p></article>
+      </div>
+    </section>
+
+    <section id="projection">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">10 · Financial projection</span><h2>Scenarios, not promises</h2></div><p>Gross monthly side-business revenue under three execution scenarios. Hover/tap points for values. Salary is excluded.</p></div>
+        <div class="grid cols-2">
+          <div class="chart"><div id="projectionChart"></div><div class="chart-legend"><span><i class="legend-dot" style="background:#ad4139"></i>Conservative</span><span><i class="legend-dot" style="background:#1f7557"></i>Base</span><span><i class="legend-dot" style="background:#d88c23"></i>Aggressive</span></div></div>
+          <article class="card"><span class="card-kicker">What must be true</span><div class="offer"><span><strong>Conservative</strong><small>Craft develops slowly; a few pilots; inconsistent acquisition.</small></span><b>₹25K–₹60K</b></div><div class="offer"><span><strong>Base</strong><small>Three proof pieces, 500 contacts, one to two active clients.</small></span><b>₹1L–₹2.25L</b></div><div class="offer"><span><strong>Aggressive</strong><small>Strong proof, agency channel, retainers and contractor leverage.</small></span><b>₹3.5L–₹5.85L</b></div><p class="hero-note">Best case is not expected case. A one-month spike does not count; targets require three consecutive months.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="decision">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">11 · Decision tree</span><h2>Choose based on evidence</h2></div><p>This short tree tells you whether to keep the service path, emphasize automation, use the portfolio for a job switch, or build a validated product.</p></div>
+        <article id="decisionCard" class="card decision-card"></article>
+        <div class="grid cols-3" style="margin-top:18px">
+          <article class="card"><span class="card-kicker">30-day gate</span><h3>Message evidence</h3><p>≥5% positive replies: continue. Under 5% after 100 relevant contacts: change trigger, niche or message—not your logo.</p></article>
+          <article class="card"><span class="card-kicker">60-day gate</span><h3>Sales evidence</h3><p>Replies but fewer than 3 calls/100: change CTA. No close after 8 qualified calls: revise proof, risk, scope or price.</p></article>
+          <article class="card"><span class="card-kicker">90-day gate</span><h3>Market evidence</h3><p>No paid work after 300 contacts across 2 niches: stop treating the service as primary; use proof for a role switch and test automation.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="capital">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">12 · Capital + tools</span><h2>Buy capacity only when revenue asks for it</h2></div><p>Early advantage comes from disciplined tests, not an expensive tool collection. Prices are current list prices from official pages at the research date and may exclude GST/FX.</p></div>
+        <div class="table-wrap"><table><thead><tr><th>Capital</th><th>Spend</th><th>Do not spend</th><th>Expected benefit</th><th>Risk / release gate</th></tr></thead><tbody><tr><td><strong>₹5K</strong></td><td>Domain, backup storage; otherwise free stack</td><td>Courses, logo, annual AI plans</td><td>Professional contact point + resilient files</td><td>Low; can start now</td></tr><tr><td><strong>₹10K</strong></td><td>One rotating generation tool only when a portfolio piece needs it</td><td>Overlapping image/video generators</td><td>One production bottleneck removed</td><td>Cancel after project if unused</td></tr><tr><td><strong>₹25K</strong></td><td>Paid voice if sold, Framer only when publishing, CA consultation</td><td>Camera, studio, paid ads</td><td>Commercial rights + operating hygiene</td><td>Release after first deposit</td></tr><tr><td><strong>₹50K</strong></td><td>Contractor trial, asset licences, backup/monitoring</td><td>Employee, office, broad SaaS build</td><td>Tests delegation and delivery capacity</td><td>Release after ₹1L collected + backlog</td></tr><tr><td><strong>₹1L</strong></td><td>Capped workflow prototype + security basics</td><td>Debt-funded app or game</td><td>Validates paid product wedge</td><td>Only after 3 paid partners / 5 deposits</td></tr></tbody></table></div>
+        <div class="grid cols-3" style="margin-top:18px">
+          <article class="card"><span class="card-kicker">Core · ₹0</span><h3>Resolve Free + Figma Starter + one free LLM</h3><p>Editing, motion/compositing, visual systems, scripts, briefs and outreach. This is enough to begin.</p></article>
+          <article class="card"><span class="card-kicker">Add only when sold</span><h3>ElevenLabs $6 · Framer $10 · Runway $15</h3><p>Paid voice, live portfolio and generation. Rotate Firefly $9.99 / Midjourney $10 / Runway rather than subscribing to all.</p></article>
+          <article class="card"><span class="card-kicker">Avoid</span><h3>CapCut workarounds + annual lock-in</h3><p>CapCut is not officially offered in Indian app stores. Do not depend on unofficial APKs or region workarounds for commercial delivery.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="risk">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">13 · Risk dashboard</span><h2>Most failures are predictable</h2></div><p>Production is not the hardest problem. Distribution, trust, rights, differentiation and sustainable capacity are.</p></div>
+        <article class="card">
+          <div class="risk-row"><div class="risk-level high">HIGH · Acquisition</div><div><strong>Risk:</strong> portfolio work creates no clients.</div><div><strong>Mitigation:</strong> 25 qualified accounts/week, trigger-led outreach, agency partnerships, 100-contact diagnostic gates.</div></div>
+          <div class="risk-row"><div class="risk-level high">HIGH · Commoditization</div><div><strong>Risk:</strong> AI compresses simple-video prices.</div><div><strong>Mitigation:</strong> sell product understanding, concepts, channel adaptation, rights-safe QA, versioning and a learning system.</div></div>
+          <div class="risk-row"><div class="risk-level high">HIGH · Overwork</div><div><strong>Risk:</strong> full-time job + bespoke delivery becomes unsustainable.</div><div><strong>Mitigation:</strong> 11.5-hour schedule, approval freeze, scope caps, one revision, no more than two parallel sprints.</div></div>
+          <div class="risk-row"><div class="risk-level medium">MEDIUM · Rights</div><div><strong>Risk:</strong> unlicensed assets, voices, likenesses or misleading synthetic content.</div><div><strong>Mitigation:</strong> provenance log, written consent, commercial licences, platform disclosures, client warranties and human QA.</div></div>
+          <div class="risk-row"><div class="risk-level medium">MEDIUM · Payment/compliance</div><div><strong>Risk:</strong> failed collection, missing export records or wrong tax assumptions.</div><div><strong>Mitigation:</strong> Wise if eligible, Payoneer/direct fallback, Zoho invoices, records and an India-qualified CA.</div></div>
+          <div class="risk-row"><div class="risk-level medium">MEDIUM · Client concentration</div><div><strong>Risk:</strong> one client becomes the business.</div><div><strong>Mitigation:</strong> no client >35% before quitting, keep outbound active and retain reusable pre-existing tools/SOPs.</div></div>
+          <div class="risk-row"><div class="risk-level medium">MEDIUM · Premature software</div><div><strong>Risk:</strong> spend a year building a tool nobody buys.</div><div><strong>Mitigation:</strong> 8 repeated-pain interviews + 3 paid partners/5 deposits + ≤12-week MVP gate.</div></div>
+        </article>
+        <div class="grid cols-3" style="margin-top:18px">
+          <article class="card"><span class="card-kicker">Worst bounded case · 12 months</span><h3>0–2 pilots; ₹0–₹25K side gross</h3><p>Cap spend at ₹25K–₹50K, keep job, stop subscriptions and use the portfolio for a creative-tech/automation role switch.</p></article>
+          <article class="callout"><span class="card-kicker">Base case · conditional</span><h3>1–2 clients; ₹1L–₹2.25L gross</h3><p>Standardize one retainer, preserve 65%+ margin, keep job until the quit gate passes, and continue paid product discovery.</p></article>
+          <article class="card"><span class="card-kicker">Best realistic · not expected</span><h3>₹3.5L–₹5.85L gross</h3><p>Two retainers + sprints, contractor-assisted. Hire per project and consider quitting only after six months of stability.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="ownership">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">14 · Ownership path</span><h2>Convert labor into assets</h2></div><p>The destination is not a permanently busier freelancer. Each stage should create something reusable, delegable or ownable.</p></div>
+        <div class="income-ladder">
+          <div class="rung"><span class="rung-index">INCOME</span><div class="rung-amount">Service</div><p>Global cash + customer access</p><span class="rung-arrow">→</span></div>
+          <div class="rung"><span class="rung-index">SECURITY</span><div class="rung-amount">Reserve</div><p>Runway + tax cash separation</p><span class="rung-arrow">→</span></div>
+          <div class="rung"><span class="rung-index">SYSTEM</span><div class="rung-amount">SOPs</div><p>Templates, QA, benchmarks</p><span class="rung-arrow">→</span></div>
+          <div class="rung"><span class="rung-index">LEVERAGE</span><div class="rung-amount">Team</div><p>Contractor-supported delivery</p><span class="rung-arrow">→</span></div>
+          <div class="rung"><span class="rung-index">OWNERSHIP</span><div class="rung-amount">Software</div><p>Recurring workflow product</p><span class="rung-arrow">→</span></div>
+          <div class="rung active"><span class="rung-index">WEALTH</span><div class="rung-amount">Assets</div><p>Diversified investments + IP</p></div>
+        </div>
+        <div class="grid cols-2" style="margin-top:18px">
+          <article class="card"><span class="card-kicker">What you own at each step</span><ul class="bullet-list"><li><strong>Month 1–3:</strong> portfolio, positioning, prospect data and delivery checklists.</li><li><strong>Month 4–6:</strong> reusable motion components, approved commercial terms, case studies and referral relationships.</li><li><strong>Month 7–9:</strong> internal automation, workflow taxonomy and paid design-partner insight.</li><li><strong>Month 10–12:</strong> narrow product, customer relationship and usage data—if gates pass.</li><li><strong>Long term:</strong> software cash flow, original characters, licensing tests and diversified financial assets.</li></ul></article>
+          <article class="card"><span class="card-kicker">Original IP rule</span><h3>Build “Bug Gremlin,” not a cinematic universe</h3><p>Create a reusable original character system as a low-cost comedy R&amp;D lab and client proof. Cap at 2 hours/week and 10% of realized business profit. After 8 shorts, continue only if production gets faster, an owned audience grows, or commercial enquiries appear. Views alone are not the gate.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="assumptions">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">15 · Evidence discipline</span><h2>Facts are not forecasts</h2></div><p>Every major recommendation separates observable market evidence from planning inputs and unknowable outcomes.</p></div>
+        <div id="assumptionTabs" class="assumption-tabs"><button class="chip active" data-assumption="facts">Verified facts</button><button class="chip" data-assumption="estimates">Estimates</button><button class="chip" data-assumption="planning-assumptions">Assumptions</button><button class="chip" data-assumption="uncertainties">Uncertainties</button></div>
+        <div id="facts" class="assumption-panel active card"><ul class="bullet-list"><li>US digital advertising revenue approached $300B in 2025, up 13.9% year over year (IAB/PwC, published April 2026).</li><li>Current platform and job evidence shows demand for AI creative production, motion, product visualization and creative automation.</li><li>YunoJuno’s mature-market 2026 report lists directional averages of $86/hour creative technologist, $74 AI automation and $64 motion graphics—not beginner entitlements.</li><li>Stripe India remains invite-only; Wise/Payoneer/direct transfer are alternative collection routes subject to eligibility.</li><li>TikTok remains blocked/unavailable in India; it is not part of this operating plan.</li></ul></div>
+        <div id="estimates" class="assumption-panel card"><ul class="bullet-list"><li>Offer prices, India/US/UK/EU ranges, close rates, time-to-income, costs, and success probabilities are estimates—not guarantees.</li><li>₹50K/₹1L/₹2L/₹5L probabilities are conditional judgment ranges, not measured success rates.</li><li>Contractor, software, infrastructure and support costs in projections are modeled estimates.</li></ul></div>
+        <div id="planning-assumptions" class="assumption-panel card"><ul class="bullet-list"><li>Planning FX is ₹90/US$; actual settlement varies.</li><li>You can invest 10–13 focused hours/week for 48 weeks without violating employment terms.</li><li>You complete three strong proof projects by day 45 and send 500 relevant contacts over 20+ weeks.</li><li>Targets mean gross business revenue sustained for 3 months; tax-reserve percentages are cash-planning inputs, not liabilities.</li></ul></div>
+        <div id="uncertainties" class="assumption-panel card"><ul class="bullet-list"><li>No representative dataset gives a new India-based part-time creative freelancer’s probability of success.</li><li>Creative quality, sales skill, client trust, economic conditions, platform rules, FX and luck can change outcomes.</li><li>AI commercial-use terms do not guarantee copyrightability, uniqueness or non-infringement.</li><li>India GST/export/income-tax treatment depends on facts; verify with a qualified professional.</li></ul></div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">16 · Sources</span><h2>Current evidence ledger</h2></div><p>Priority was given to official platform, government and first-party report pages. Accessed 14 September 2026 unless a publication date is shown.</p></div>
+        <div id="sourceList" class="source-list"></div>
+        <p class="hero-note">Research limitations: US/UK benchmarks do not equal India beginner outcomes; marketplace totals are concentrated; job listings show demand but not hiring probability; platform policies and prices change. Re-check critical terms before spending or contracting.</p>
+      </div>
+    </section>
+
+    <section id="answer">
+      <div class="shell">
+        <div class="callout" style="padding:clamp(24px,5vw,58px)">
+          <span class="eyebrow" style="color:#f5cc85">The direct answer</span>
+          <h2 style="max-width:1000px">If I were starting from your exact position, this is what I would do.</h2>
+          <div class="grid cols-2" style="margin-top:28px">
+            <div><p>I would keep the TCS role and spend the next 30 days learning only enough <strong>Figma, DaVinci Resolve/Fusion, motion fundamentals, product storytelling and ethical AI-assisted production</strong> to create three commercial proof pieces. I would not disappear into courses, learn every design discipline, build a game, buy a camera, or become an educator.</p><p>I would build a faceless studio brand around the work—not myself—and sell one precise outcome to B2B SaaS/AI firms: a <strong>$650 feature-launch loop</strong>, then a <strong>$1,250 product-story sprint</strong>. I would target companies with a launch in the last 60 days and contact 25 each week with a specific visual gap and, for the best five, a six-second concept.</p></div>
+            <div><p>I would use AI for concept breadth, storyboards, cleanup, voice and variants, but keep human judgment, rights, consistency and product truth as the value. After paid work, I would map repeated approval/versioning/localization pain and sell a workflow automation build. Only after 3 paid design partners or 5 deposits would I build a narrow plugin or micro-SaaS.</p><p>I would aim for ₹1L gross through one premium sprint per month, but not quit until six months of stable profit, 6–9 months runway, a three-month pipeline and low client concentration. I would attempt ₹5L through two retainers, sprints and contractor leverage—not five times my hours. Original comedy IP would get two hours per week until evidence earns more.</p></div>
+          </div>
+          <p style="margin-top:24px;font-size:1.2rem"><strong>The 12-month thesis:</strong> employment for runway → service for cash and customer truth → automation for leverage → software/IP for ownership.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="shell footer-grid"><div><strong>Creative Income Command Center</strong><p>Local-first · no backend · no tracking · data stored in your browser.</p></div><div><p>Research cut-off: 14 September 2026<br>Strategy version: 1.0</p></div></div></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (() => {
+    'use strict';
+    const $ = (s, root=document) => root.querySelector(s);
+    const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+    const storage = {
+      get(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch { return fallback; } },
+      set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { toast('Browser storage is unavailable.'); } }
+    };
+    const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    const money = n => new Intl.NumberFormat('en-IN', {style:'currency', currency:'INR', maximumFractionDigits:0}).format(Number(n)||0);
+    const toast = msg => { const el=$('#toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2200); };
+
+    const strategies = {
+      primary: {kicker:'PRIMARY · SERVICE → PRODUCTIZED SERVICE', title:'Faceless product-launch creative systems', confidence:'Highest strict-fit probability', body:'Turn one B2B SaaS/AI product launch into a coherent visual system: product story, UI motion, launch loop, channel-native cutdowns, stills, file naming and a reusable production workflow. Your face is irrelevant; product understanding and creative judgment are the moat.', offers:[['Feature Launch Loop','$650 · 5 business days'],['Product Story Sprint','$1,250 · 10 business days'],['Launch Content System','$2,000/month · after a successful sprint']], fit:['Creative: motion, storytelling, visual systems and comedy can become style advantages.','Technical: software fluency helps you understand products and build reliable workflows.','Risk: client acquisition and portfolio quality—not tool access—are the main constraints.'], gate:'After 100 qualified contacts: ≥5% positive replies. After 8 qualified calls: at least one close. Otherwise revise niche, proof or offer.'},
+      secondary: {kicker:'SECONDARY · HIGHER-TICKET SERVICE', title:'Creative workflow automation builds', confidence:'Strong skill adjacency and job hedge', body:'Map and automate a real creative-team bottleneck—brief intake, storyboard generation, asset registry, approvals, localization, versioning or publishing—with failure handling, documentation and handoff.', offers:[['Paid diagnostic','₹20K–₹40K'],['Implementation pilot','$1,500–$3,500'],['Support / iteration','Fixed monthly scope']], fit:['Uses technical training strengths without becoming education.','Higher willingness to pay when time/error cost is measurable.','Can lead to AI solutions employment if the studio path is weak.'], gate:'Five workflow interviews must reveal repeated pain; at least one buyer must pay. Interest without budget is not validation.'},
+      longterm: {kicker:'LONG TERM · SOFTWARE / OWNED ASSET', title:'Narrow creative-workflow plugin or micro-SaaS', confidence:'High upside, build only after payment evidence', body:'Convert the most repeated paid workflow pain into a small professional tool. Candidate wedges: rights/provenance ledger, approval/version manifest, localization pipeline or creative-test asset lineage—not another generic generator.', offers:[['Design partner','Paid pilot'],['Professional plan','$20–$50/month'],['Team / agency plan','$100–$300/month']], fit:['Recurring global revenue and customer ownership.','Service clients create informed discovery and initial distribution.','AI/video compute can destroy margins if not measured and priced.'], gate:'No broad build before 8 repeated-pain interviews + 3 paid design partners or 5 deposits + ≤12-week MVP + expected variable cost below 20%.'},
+      ip: {kicker:'OPTION · MEDIA / IP', title:'Original “Bug Gremlin” comedy-character system', confidence:'High creative fit; speculative economics', body:'A faceless recurring character that “eats” software bugs can power short comedy experiments, studio differentiation, brand commissions and later licensing tests. It is R&D and an option—not the rent plan.', offers:[['Time cap','2 hours/week'],['Capital cap','10% of realized business profit'],['First test','8 finished shorts']], fit:['Original recurring animation can monetize if each episode is distinct.','Direct products and licensing are more controllable than ad RPM.','Audience distribution is power-law; virality is not a plan.'], gate:'Continue after 8 shorts only if production gets faster and an owned audience or commercial enquiries grow. Views alone do not unlock more budget.'},
+      employment: {kicker:'HEDGE · EMPLOYMENT', title:'Creative-tech / AI workflow role switch', confidence:'Runway upgrade, not ownership destination', body:'Use the same portfolio to test creative producer, AI workflow/solutions, frontend/creative developer and creative-technologist roles. A higher salary can fund experimentation, but employment does not create a customer-owned asset.', offers:[['Application experiment','30 matched roles'],['Planning salary threshold','₹6L+ annual'],['Best adjacent lane','AI workflow / solutions']], fit:['Current India roles exist across AI creative production, motion and automation.','Trainer communication transfers strongly to solutions and implementation.','International “remote” often remains country restricted.'], gate:'Apply after 3 strong cases + 2 paid outcomes. Switch only for materially better compensation, alignment and optionality; cap certificate-only learning.'}
+    };
+    function renderStrategy(key) {
+      const s=strategies[key];
+      $('#strategyPanel').innerHTML=`<span class="card-kicker">${esc(s.kicker)}</span><h3>${esc(s.title)}</h3><p><span class="badge fact">Decision</span> <strong>${esc(s.confidence)}</strong></p><p style="margin-top:14px">${esc(s.body)}</p>${s.offers.map(o=>`<div class="offer"><span>${esc(o[0])}</span><b class="offer-price">${esc(o[1])}</b></div>`).join('')}<ul class="bullet-list">${s.fit.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p class="hero-note"><strong>Evidence gate:</strong> ${esc(s.gate)}</p>`;
+    }
+    $$('.tab-button').forEach(b=>b.addEventListener('click',()=>{ $$('.tab-button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderStrategy(b.dataset.strategy); }));
+    renderStrategy('primary');
+
+    const criteria = ['Skill adjacency','Creative fit','Faceless / non-education','Low capital','Job compatibility','Speed to validation','Demand','Willingness to pay','Repeat potential','Distribution access','India / global access','Margin','Customer ownership','Platform independence','Career leverage','Defensibility / IP','Scalability','Downside safety'];
+    const opportunityRows = [
+      [1,'Creative workflow automation implementation','Service',90.4,'30–50%','3–10%','Primary secondary engine','535544554455555435','top3'],
+      [2,'SaaS demo-video package','Service',88.8,'30–45%','2–6%','Merge into primary studio','545545543454555335','top5'],
+      [3,'B2B animated launch sprint','Service',88.4,'30–45%','2–6%','Primary offer','555545443454555335','top3'],
+      [4,'UI motion / microinteraction service','Service',87.2,'25–40%','2–6%','Primary capability','455544444355555435','top5'],
+      [5,'Performance-ad variant service','Service',87.2,'20–40%','2–7%','Selective adjacent offer','455445545454544344','top5'],
+      [6,'Motion-rich Framer microsites','Service',84.6,'20–35%','2–5%','Add-on after proof','455444453454555434','top10'],
+      [7,'Creator-workflow browser extension','Software',83.8,'15–30%*','3–10%*','Validated phase-two wedge','445543445454435454','top3'],
+      [8,'Interactive product demos','Service',82.2,'20–35%','2–6%','Strong but slower build','455433453354555544','top10'],
+      [9,'AI creative-producer projects','Service',81.8,'20–35%','2–5%','Good project lane','455434544344555334','top10'],
+      [10,'SaaS visual-design subscription','Service',81.0,'20–35%','3–8%','Retainer after sprint','455433455354554343','top10'],
+      [11,'Automation templates','Product',79.4,'5–15%','1–4%','Service by-product only','525554432455444234','top20'],
+      [12,'Professional creative-workflow micro-SaaS','Software',79.2,'15–30%*','3–10%*','Build only after pre-sale','445332455254555553','top20'],
+      [13,'UI motion asset packs','Product',78.6,'3–10%','<2%','Catalog sidecar','355554332455334444','top20'],
+      [14,'Shopify visual-merchandising app','Software',78.4,'10–25%','3–8%','Only with merchant pain','345433555454324453','top20'],
+      [15,'Generic AI image/video gigs','Service',76.6,'8–20%','<2%','Commoditized; avoid positioning','445545422454553133','top20'],
+      [16,'WordPress visual plugin','Software',76.4,'8–20%','2–6%','Niche only','345433445354434453','top20'],
+      [17,'Animated mascot licensing','Media/IP',75.0,'5–15%','2–6%','Client-funded IP test','355433343254554543','top20'],
+      [18,'Atlassian workflow app','Software',73.4,'8–20%','3–8%','Enterprise but slower','425322555354325453','top20'],
+      [19,'Faceless comedy-animation IP','Media/IP',71.0,'3–10%','1–4%','Capped creative option','355442323253554552','top20'],
+      [20,'Template marketplace packs','Product',69.4,'3–10%','<2%','Lead-gen sidecar only','345554322454223233','top20'],
+      [21,'3D asset packs','Product',68.6,'3–8%','<2%','Eliminate as core','255443332354333443','excluded'],
+      [22,'Faceless entertainment channel','Media/IP',66.6,'3–10%','1–4%','Virality-dependent; eliminate','355441423254424451','excluded'],
+      [23,'Browser comedy game','Media/IP',64.4,'2–8%','<3%','Prototype only','355332322353434551','excluded'],
+      [24,'Stock motion / video','Product',61.2,'2–6%','<1%','Weak control; eliminate','345443322453113232','excluded'],
+      [25,'Premium indie comedy game','Media/IP',55.8,'2–8%','<3%','Poor 1,000-hour bet','255111332253443551','excluded']
+    ];
+    let oppSort={key:'rank',asc:true};
+    function tierMatch(row,tier){ const rank=row[0], tag=row[8]; if(tier==='all') return true; if(tier==='top3') return tag==='top3'; if(tier==='top5') return rank<=5; if(tier==='top10') return rank<=10; if(tier==='top20') return rank<=20; return tag==='excluded'; }
+    function renderOpportunities(){
+      const q=$('#oppSearch').value.toLowerCase(), tier=$('#oppTier').value, type=$('#oppType').value;
+      const idx=oppSort.key==='rank'?0:3;
+      const rows=opportunityRows.filter(r=>r[1].toLowerCase().includes(q)&&tierMatch(r,tier)&&(type==='all'||r[2]===type)).sort((a,b)=>(a[idx]-b[idx])*(oppSort.asc?1:-1));
+      $('#opportunityBody').innerHTML=rows.map(r=>`<tr data-rank="${r[0]}" tabindex="0"><td>${r[0]}</td><td><strong>${esc(r[1])}</strong></td><td>${esc(r[2])}</td><td><span class="score ${r[3]<70?'low':r[3]<80?'medium':''}">${r[3]}</span></td><td>${esc(r[4])}</td><td>${esc(r[5])}</td><td>${esc(r[6])}</td></tr>`).join('')||`<tr><td colspan="7" class="empty">No opportunities match.</td></tr>`;
+      $$('#opportunityBody tr[data-rank]').forEach(tr=>{ const show=()=>showOpportunity(Number(tr.dataset.rank)); tr.addEventListener('click',show); tr.addEventListener('keydown',e=>{if(e.key==='Enter')show();}); });
+    }
+    function showOpportunity(rank){ const r=opportunityRows.find(x=>x[0]===rank); const values=[...r[7]].map(Number); $('#opportunityDetail').innerHTML=`<span class="card-kicker">Rank ${r[0]} · ${esc(r[2])}</span><h3>${esc(r[1])} <span class="score">${r[3]}</span></h3><p><strong>Verdict:</strong> ${esc(r[6])}. <strong>Estimated ₹1L odds:</strong> ${esc(r[4])}; <strong>₹5L odds:</strong> ${esc(r[5])}. An asterisk means conditional on prior service validation.</p><div class="criteria-grid">${criteria.map((c,i)=>`<div class="criterion"><span>${esc(c)}</span><b>${values[i]}/5</b></div>`).join('')}</div>`; }
+    ['oppSearch','oppTier','oppType'].forEach(id=>$('#'+id).addEventListener(id==='oppSearch'?'input':'change',renderOpportunities));
+    $$('th.sortable').forEach(th=>th.addEventListener('click',()=>{ if(oppSort.key===th.dataset.sort)oppSort.asc=!oppSort.asc; else oppSort={key:th.dataset.sort,asc:true}; renderOpportunities(); }));
+    renderOpportunities();
+
+    const niches=[
+      ['AI + product storytelling',['AI','Design','Creative services'],'Highest fit','Product films, launch loops, concepts and visual systems for technical products.','Cash + portfolio'],
+      ['Creative workflow automation',['AI','Software','Creative services'],'Highest fit','Automate briefs, approvals, versioning, localization and asset lineage.','Higher-ticket service'],
+      ['UI motion systems',['Animation','Design','Software'],'High fit','Microinteractions, UI product motion and reusable component systems.','Service → assets'],
+      ['Brand character systems',['Comedy','Animation','IP'],'High creative fit','Original mascots and short comedic brand stories funded by clients.','Service + licensing'],
+      ['Interactive product demos',['Software','Design','Entertainment'],'High fit','Motion-rich, clickable stories that make abstract software tangible.','Premium service'],
+      ['Performance creative variants',['AI','Design','Creative services'],'High demand','Platform-native concepts and variants with a testing matrix.','Retainer'],
+      ['Original comedy animation',['Comedy','Animation','Entertainment','IP'],'Speculative','Recurring original characters with distinct stories and direct fan products.','Capped IP option'],
+      ['Workflow plugin / micro-SaaS',['Software','AI','Digital products'],'Long-term fit','A narrow professional tool discovered through repeated paid pain.','Recurring software'],
+      ['Motion asset packs',['Animation','Digital products','Design'],'Sidecar','Sell reusable by-products of client production; do not build a random catalog.','Product'],
+      ['Browser game prototypes',['Games','Comedy','Entertainment'],'Speculative','2–4 week fun/retention tests only; do not commit a year without evidence.','Option'],
+      ['Generative art licensing',['Art','AI','IP'],'Low base-case','Rights-cleared commercial systems beat individual artwork, but discovery is hard.','Side catalog'],
+      ['Creative-tech employment',['Software','AI','Design'],'Runway hedge','AI creative producer, workflow, solutions or creative-engineer role.','Salary + optionality']
+    ];
+    const categories=['All','Art','Comedy','Animation','Design','Entertainment','AI','Software','Games','Creative services','Digital products','IP'];
+    $('#nicheFilters').innerHTML=categories.map((c,i)=>`<button class="chip ${i===0?'active':''}" data-niche="${esc(c)}">${esc(c)}</button>`).join('');
+    $('#nicheGrid').innerHTML=niches.map((n,i)=>`<article class="card niche-card" data-cats="${esc(n[1].join('|'))}"><span class="niche-rank">${String(i+1).padStart(2,'0')}</span><span class="card-kicker">${esc(n[2])}</span><h3>${esc(n[0])}</h3><p>${esc(n[3])}</p><span class="pill" style="margin-top:12px">${esc(n[4])}</span></article>`).join('');
+    $$('#nicheFilters .chip').forEach(b=>b.addEventListener('click',()=>{ $$('#nicheFilters .chip').forEach(x=>x.classList.remove('active'));b.classList.add('active'); const c=b.dataset.niche; $$('#nicheGrid .niche-card').forEach(card=>card.hidden=c!=='All'&&!card.dataset.cats.split('|').includes(c)); }));
+
+    const days=[
+      ['Define constraints and baseline','60m','Sheets / notes','Weekly hours, budget and target written','Schedule and limits are explicit.'],['Select ICP','75m','LinkedIn, Product Hunt, changelogs','30 matching SaaS/AI companies','All match size, trigger and geography.'],['Write fixed offers','75m','Docs','The $650 and $1,250 scope sheets','Inputs, outputs, revision and timeline fixed.'],['Pulseboard style frames','90m','Figma','3 product-story directions','One direction selected against the brief.'],['Storyboard proof project 1','90m','Figma','10–12 frame board','Every shot has a purpose and duration.'],['Animate rough cut','3h','DaVinci Resolve / Fusion','30-second rough cut','Full story exists; placeholders are allowed.'],['Finish project 1','3h','Resolve','Master + 3 cutdowns','Audio, captions and formats pass checklist.'],['Publish case study 1','90m','Static HTML / Framer Free','Pulseboard case page','Speculative work is labeled; process is visible.'],['Design Bug Gremlin','75m','Figma / Blender','Character sheet + 3 jokes','Original, reusable, no celebrity likeness.'],['Storyboard comedy set','90m','Figma','3 × 10-second boards','Setup, turn and product payoff are clear.'],['Build reusable character assets','2h','Figma / Blender','Rig, style and scene kit','Kit supports all three spots.'],['Animate comedy spot 1','3h','Resolve / Blender','1 polished spot + formats','All aspect ratios export correctly.'],['Finish spots 2–3','3h','Resolve / Blender','Comedy campaign set','Style and timing system are consistent.'],['Publish case study 2','90m','Portfolio','Bug Gremlin page','Shows system; claims no fake results.'],['Map creative workflow','75m','Diagram tool','Brief → review process map','Inputs, owners, exceptions and outputs named.'],['Build happy-path automation','2h','n8n / Make / JS / Python','Mock brief generates structured artifacts','The workflow runs end to end.'],['Add failure handling','90m','Same stack','Logs, retry and manual fallback','3 failure cases tested.'],['Record automation demo','2h','Screen capture + Resolve','90-second faceless demo','Outcome is clear without narration.'],['Assemble portfolio','2h','Static HTML / Framer Free','Home, work, offer, contact','Mobile and desktop links work.'],['Create commercial pack','90m','Docs + Zoho Invoice','Proposal, terms, invoice','Rights, deposit and change order are explicit.'],['Create prospect CRM','90m','This dashboard / Sheets','30 qualified leads','Trigger, gap and contact captured.'],['Research outreach angles','90m','Web research','10 personalized observations','Each cites a specific visual gap.'],['Send outreach wave 1','60m','Email / LinkedIn','10 messages','Follow-up dates are scheduled.'],['Send outreach wave 2','90m','Email / LinkedIn','10 messages','Quality matches wave 1; no bulk spam.'],['Follow up + portfolio QA','60m','CRM + browser','Replies logged; page fixed','Every reply has a next action.'],['Prepare discovery call','75m','Docs','20-minute call + qualification sheet','Can diagnose launch, assets, buyer and deadline.'],['Send wave 3 + mini concepts','90m','Email + Figma','10 messages + 5 six-second concepts','Free work is capped to best-fit accounts.'],['Role-play scope and objections','90m','Notes / voice recorder','Objection and proposal notes','Offer is explainable in 2 minutes.'],['Complete due follow-ups','60m','CRM','All due touches sent','No lead lacks a dated next action.'],['Review and choose next test','90m','Dashboard','30-day scorecard + decision','Continue only with ≥5% replies or a specific hypothesis change.']
+    ];
+    let mission=storage.get('cc_mission',{}), missionFilter='all';
+    function renderMission(){ const completed=Object.values(mission).filter(Boolean).length; $('#missionProgressText').textContent=`${completed} / 30 complete`; $('#missionProgressBar').style.width=`${completed/30*100}%`; $('#missionGrid').innerHTML=days.map((d,i)=>{const done=!!mission[i]; if(missionFilter==='open'&&done)return ''; return `<article class="day-card ${done?'done':''}"><div class="day-head"><div><span class="card-kicker">Day ${i+1} · ${esc(d[1])}</span><h3>${esc(d[0])}</h3></div><input class="day-check" data-day="${i}" type="checkbox" ${done?'checked':''} aria-label="Mark day ${i+1} complete"></div><div class="mission-meta"><span>Tool: ${esc(d[2])}</span></div><div class="day-deliverable"><strong>Deliverable:</strong> ${esc(d[3])}<br><strong>Done when:</strong> ${esc(d[4])}</div></article>`; }).join(''); $$('.day-check').forEach(c=>c.addEventListener('change',()=>{mission[c.dataset.day]=c.checked;storage.set('cc_mission',mission);renderMission();})); }
+    $('#showAllDays').addEventListener('click',()=>{missionFilter='all';renderMission();}); $('#showOpenDays').addEventListener('click',()=>{missionFilter='open';renderMission();}); $('#resetMission').addEventListener('click',()=>{if(confirm('Reset all 30 mission checkboxes?')){mission={};storage.set('cc_mission',mission);renderMission();}}); renderMission();
+
+    const roadmap=[
+      ['M1','Proof + first outbound','₹0–₹25K','3 proof pieces; 30 sends; fixed offer','Reply rate ≥5% or write one precise ICP/message change.'],['M2','Paid pilot','₹25K–₹60K','100 cumulative sends; 3+ calls; 1 pilot','No calls: change list/message, not tools.'],['M3','Delivery system','₹50K–₹1L','2 paid projects; testimonial; ≥65% margin','Standardize checklist and raise from intro pricing.'],['M4','Premium sprint','₹1L target','Sell one $1,250 sprint; ≤10-day turnaround','Offer a retainer only to a satisfied buyer.'],['M5','Automation test','₹1L–₹1.5L','5 workflow interviews; 1 paid diagnostic/build','Interest without budget = internal tool, not offer.'],['M6','Vertical decision','₹1L sustained or leading niche','300 sends; choose strongest buyer/problem','If service weak but portfolio strong, test role switch.'],['M7–9','Product discovery + pre-sale','₹1.5L–₹2.5L service','15 interviews; pain repeats in 8; 3 paid partners/5 deposits','No paid commitment = no product build.'],['M10–12','Private beta + scale decision','₹2L–₹5L conditional','20 activated; 5 paying; week-4 use; channel evidence','Retention before traffic; quit only through financial gate.']
+    ];
+    $('#roadmapList').innerHTML=roadmap.map((r,i)=>`<div class="roadmap-item"><div class="roadmap-dot">${esc(r[0])}</div><article class="card roadmap-card ${i===0?'open':''}"><span class="card-kicker">Income target · ${esc(r[2])}</span><h3>${esc(r[1])}</h3><div class="roadmap-detail"><p><strong>Build / sell:</strong> ${esc(r[3])}</p><p class="hero-note"><strong>Decision gate:</strong> ${esc(r[4])}</p></div></article></div>`).join('');
+    $$('.roadmap-card').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('open')));
+
+    function calcRevenue(){ const val=id=>Number($('#'+id).value)||0; const gross=val('clients')*val('clientPrice')+val('projects')*val('projectPrice')+val('productSales')*val('productPrice')+val('subscriptions')*val('subPrice'); const fees=gross*val('feeRate')/100, contractors=gross*val('contractorRate')/100, fixed=val('fixedExpenses'), profit=Math.max(0,gross-fees-contractors-fixed), reserve=profit*val('taxReserve')/100, net=profit-reserve; $('#netResult').textContent=money(net); $('#calcLines').innerHTML=`<div class="result-line"><span>Gross revenue</span><b>${money(gross)}</b></div><div class="result-line"><span>Fees</span><b>−${money(fees)}</b></div><div class="result-line"><span>Contractors</span><b>−${money(contractors)}</b></div><div class="result-line"><span>Fixed expenses</span><b>−${money(fixed)}</b></div><div class="result-line"><span>Operating profit</span><b>${money(profit)}</b></div><div class="result-line"><span>Planning reserve</span><b>−${money(reserve)}</b></div><div class="result-line final"><span>Cash after reserve</span><b>${money(net)}</b></div>`; }
+    $$('#revenueForm input').forEach(i=>i.addEventListener('input',calcRevenue)); calcRevenue();
+
+    let prospects=storage.get('cc_prospects',[]);
+    function renderProspects(){ $('#prospectBody').innerHTML=prospects.length?prospects.map((p,i)=>`<tr><td><strong>${esc(p.name)}</strong></td><td>${esc(p.country)}</td><td>${esc(p.service)}</td><td>${esc(p.date)}</td><td><select class="prospect-stage" data-index="${i}">${['Contacted','Responded','Meeting','Proposal','Won','Lost'].map(s=>`<option ${p.status===s?'selected':''}>${s}</option>`).join('')}</select></td><td>${esc(p.next)}</td><td>${money(p.revenue)}</td><td><button class="btn danger small delete-prospect" data-index="${i}">Delete</button></td></tr>`).join(''):`<tr><td colspan="8" class="empty">No prospects yet. Add the first 10 from today’s action list.</td></tr>`; const won=prospects.filter(p=>p.status==='Won'), revenue=won.reduce((s,p)=>s+Number(p.revenue||0),0), responses=prospects.filter(p=>['Responded','Meeting','Proposal','Won'].includes(p.status)).length; $('#prospectSummary').innerHTML=`<span class="pill">Total ${prospects.length}</span><span class="pill">Response rate ${prospects.length?Math.round(responses/prospects.length*100):0}%</span><span class="pill">Won ${won.length}</span><span class="pill">Revenue ${money(revenue)}</span>`; $$('.delete-prospect').forEach(b=>b.addEventListener('click',()=>{prospects.splice(Number(b.dataset.index),1);storage.set('cc_prospects',prospects);renderProspects();})); $$('.prospect-stage').forEach(s=>s.addEventListener('change',()=>{prospects[Number(s.dataset.index)].status=s.value;storage.set('cc_prospects',prospects);renderProspects();})); }
+    $('#prospectForm').addEventListener('submit',e=>{e.preventDefault(); prospects.push({name:$('#pName').value,country:$('#pCountry').value,service:$('#pService').value,date:$('#pDate').value,status:$('#pStatus').value,revenue:Number($('#pRevenue').value)||0,next:$('#pNext').value});storage.set('cc_prospects',prospects);e.target.reset();$('#pRevenue').value=0;renderProspects();toast('Prospect saved locally.');});
+    $('#pDate').value=new Date().toISOString().slice(0,10);
+    $('#exportProspects').addEventListener('click',()=>{ const rows=[['Prospect','Country','Service','Date','Status','Next Action','Revenue'],...prospects.map(p=>[p.name,p.country,p.service,p.date,p.status,p.next,p.revenue])]; const csv=rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\n'); const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='creative-command-center-prospects.csv';a.click();URL.revokeObjectURL(a.href);}); renderProspects();
+
+    const skills={Current:['Technical product understanding','Client communication and facilitation','Java / SQL / web foundations'],Next:['Figma visual systems','DaVinci Resolve + Fusion','Storyboarding and motion fundamentals','Fixed-scope sales and discovery'],Advanced:['Creative direction + performance hypotheses','Workflow automation with failure handling','Contractor QA and production management','Product analytics, retention and SaaS operations']};
+    let skillState=storage.get('cc_skills',{});
+    $('#skillBoard').innerHTML=Object.entries(skills).map(([level,items])=>`<div class="kanban-col"><div class="kanban-title"><span>${level}</span><span>${items.length}</span></div>${items.map((x,i)=>`<div class="skill-item"><label><input class="skill-check" type="checkbox" data-key="${esc(level+'-'+i)}" ${skillState[level+'-'+i]?'checked':''}><span>${esc(x)}</span></label></div>`).join('')}</div>`).join('');
+    $$('.skill-check').forEach(c=>c.addEventListener('change',()=>{skillState[c.dataset.key]=c.checked;storage.set('cc_skills',skillState);}));
+
+    const initialPortfolio=[['Pulseboard Feature Launch','Planned','',''],['Bug Gremlin Campaign','Planned','',''],['Brief-to-Variant Workflow','Planned','',''],['Interactive Product Microsite','Backlog','',''],['Variant Ledger Extension','Backlog','','']];
+    let portfolio=storage.get('cc_portfolio',initialPortfolio);
+    function renderPortfolio(){ $('#portfolioBoard').innerHTML=portfolio.map((p,i)=>`<div class="portfolio-item"><strong>${esc(p[0])}</strong><select class="portfolio-status" data-index="${i}">${['Backlog','Planned','In progress','Review','Published'].map(s=>`<option ${p[1]===s?'selected':''}>${s}</option>`).join('')}</select><input class="portfolio-deadline" data-index="${i}" type="date" value="${esc(p[2])}" aria-label="Deadline for ${esc(p[0])}"><input class="portfolio-link" data-index="${i}" type="url" value="${esc(p[3])}" placeholder="Public link" aria-label="Public link for ${esc(p[0])}"></div>`).join(''); $$('.portfolio-status').forEach(x=>x.addEventListener('change',()=>{portfolio[x.dataset.index][1]=x.value;savePortfolio();})); $$('.portfolio-deadline').forEach(x=>x.addEventListener('change',()=>{portfolio[x.dataset.index][2]=x.value;savePortfolio();})); $$('.portfolio-link').forEach(x=>x.addEventListener('change',()=>{portfolio[x.dataset.index][3]=x.value;savePortfolio();})); }
+    function savePortfolio(){storage.set('cc_portfolio',portfolio);}
+    $('#addPortfolio').addEventListener('click',()=>{const name=prompt('Project name');if(name){portfolio.push([name,'Backlog','','']);savePortfolio();renderPortfolio();}});renderPortfolio();
+
+    let kpis=storage.get('cc_kpis',{}); $$('.kpi-input').forEach(i=>{i.value=kpis[i.id]??'';i.addEventListener('input',()=>{kpis[i.id]=i.value;storage.set('cc_kpis',kpis);updateKpi();});});
+    function updateKpi(){const h=Number($('#kpiHours').value)||0,p=Number($('#kpiProspects').value)||0,r=Number($('#kpiRevenue').value)||0;let msg='<span class="badge estimate">Record evidence</span> Enter this week’s numbers.'; if(h>15)msg='<span class="badge risk">Capacity warning</span> Over 15 hours: remove IP/extra portfolio scope before risking sleep or job performance.'; else if(p>=25&&h>=8)msg='<span class="badge fact">Execution on track</span> Prospecting and focused time are at the planned cadence.'; else if(r>0)msg='<span class="badge fact">Market evidence</span> Revenue collected. Document source, margin, delivery time and repeatable pain.'; $('#kpiSignal').innerHTML=msg;}updateKpi();
+
+    const chartData={months:[1,3,6,9,12], conservative:[0,15,25,35,50], base:[0,35,100,150,225], aggressive:[0,55,150,350,585]};
+    function renderChart(){const W=700,H=250,pad=36,max=600,x=i=>pad+i*(W-pad*2)/(chartData.months.length-1),y=v=>H-pad-v/(max)*(H-pad*2),colors={conservative:'#ad4139',base:'#1f7557',aggressive:'#d88c23'}; const grid=[0,100,200,300,400,500,600].map(v=>`<line x1="${pad}" y1="${y(v)}" x2="${W-pad}" y2="${y(v)}" stroke="#d8d3c6" stroke-width="1"/><text x="2" y="${y(v)+4}" font-size="10" fill="#66736e">₹${v}K</text>`).join(''); const lines=Object.keys(colors).map(k=>{const pts=chartData[k].map((v,i)=>`${x(i)},${y(v)}`).join(' ');return `<polyline points="${pts}" fill="none" stroke="${colors[k]}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>${chartData[k].map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="5" fill="${colors[k]}"><title>${k}: month ${chartData.months[i]} · ₹${v}K</title></circle>`).join('')}`}).join('');const labels=chartData.months.map((m,i)=>`<text x="${x(i)}" y="${H-5}" text-anchor="middle" font-size="11" fill="#66736e">M${m}</text>`).join('');$('#projectionChart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Conservative, base and aggressive monthly gross revenue scenarios">${grid}${lines}${labels}</svg>`;}renderChart();
+
+    const decisionNodes={
+      start:{q:'Do you have three commercial-quality proof projects?',yes:'outreach',no:'build'},
+      build:{result:'Build only the first 3 portfolio projects. Cap them at 10–12 hours each, then start outreach. Do not add more courses or tools.'},
+      outreach:{q:'After 100 qualified contacts, is positive reply rate at least 5%?',yes:'calls',no:'message'},
+      message:{result:'Change the ICP trigger, observed problem or message. Keep the capability; test a sharper hypothesis before producing more work.'},
+      calls:{q:'Have you closed at least one paid pilot after no more than 8 qualified calls?',yes:'repeat',no:'offer'},
+      offer:{result:'Inspect trust, proof, scope, deposit risk and price. If two clear offer iterations still fail after another 100 contacts, use the portfolio for a role switch and emphasize automation.'},
+      repeat:{q:'Does the same paid workflow pain repeat across 8+ interviews?',yes:'prepay',no:'service'},
+      service:{result:'Stay a premium product-story studio. Standardize delivery and delegate selectively; do not force software where pain does not repeat.'},
+      prepay:{q:'Will 3 design partners pay, or will 5 prospects place real deposits?',yes:'product',no:'discover'},
+      discover:{result:'Do not build the product. Continue service and discovery; interest without payment is weak evidence.'},
+      product:{result:'Build the smallest ≤12-week plugin around one workflow. Measure activation, week-4 retained use and variable cost before adding features.'}
+    };
+    let decisionKey='start';
+    function renderDecision(){const n=decisionNodes[decisionKey];if(n.result){$('#decisionCard').innerHTML=`<div class="decision-result"><span class="card-kicker">Recommended path</span><h3 style="font:500 2rem Georgia,serif">${esc(n.result)}</h3><button id="restartDecision" class="btn secondary" style="margin-top:22px">Restart decision</button></div>`;$('#restartDecision').addEventListener('click',()=>{decisionKey='start';renderDecision();});}else{$('#decisionCard').innerHTML=`<span class="card-kicker">Decision question</span><h3 style="font:500 2rem Georgia,serif;max-width:700px">${esc(n.q)}</h3><div class="decision-options"><button class="btn" data-answer="yes">Yes</button><button class="btn secondary" data-answer="no">No</button></div>`;$$('[data-answer]').forEach(b=>b.addEventListener('click',()=>{decisionKey=n[b.dataset.answer];renderDecision();}));}}renderDecision();
+
+    $$('#assumptionTabs .chip').forEach(b=>b.addEventListener('click',()=>{$$('#assumptionTabs .chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.assumption-panel').forEach(p=>p.classList.remove('active'));$('#'+b.dataset.assumption).classList.add('active');}));
+
+    const sources=[
+      ['16 Apr 2026','IAB / PwC','Internet Advertising Revenue Report: Full Year 2025','https://www.iab.com/insights/internet-advertising-revenue-report-full-year-2025/','US digital ad revenue near $300B and 13.9% year-over-year growth.'],
+      ['15 Jan 2026','IAB','The AI Ad Gap Widens','https://www.iab.com/insights/the-ai-gap-widens/','AI creative adoption, consumer skepticism, quality and disclosure risk.'],
+      ['15 Jul 2025','IAB','2025 Digital Video Ad Spend & Strategy','https://www.iab.com/insights/video-ad-spend-report-2025/','Digital-video spend growth and performance focus.'],
+      ['Jul 2026','TikTok / WARC','The New Creative Advantage','https://ads.tiktok.com/business/en-US/blog/warc-report-new-creative-advantage','Directional evidence: AI creative volume rose faster than quality; platform-native adaptation gap.'],
+      ['Accessed 2026','Google Ads','Build a Performance Max asset group','https://support.google.com/google-ads/answer/10724492?hl=en','Cross-channel asset combinations and recurring asset needs.'],
+      ['7 Aug 2026','YunoJuno','2026 Contractor & Freelancer Rates Report','https://www.yunojuno.com/freelancer-rates-report','182K+ data points; mature US/UK contractor benchmarks and direct-booking importance.'],
+      ['15 Jan 2025','Upwork Research','Most In-Demand Skills for 2025','https://www.upwork.com/research/in-demand-skills-2025','US-origin freelance hiring demand including video production.'],
+      ['28 May 2026','Stripe','Solo founding is at an all-time high: top performer traits','https://stripe.com/blog/top-solo-founder-traits','Solo B2B vs B2C revenue/retention signals and extreme outcome dispersion.'],
+      ['Accessed 2026','YouTube Help','Channel monetization policies','https://support.google.com/youtube/answer/1311392','Original recurring characters can monetize; mass-produced/repetitive AI and reused content are risky.'],
+      ['Accessed 2026','YouTube Help','Expanded YouTube Partner Program','https://support.google.com/youtube/answer/13429240','India availability and current fan-funding/ad eligibility thresholds.'],
+      ['Mar 2026','Meta','Rewarding Original Creators on Facebook','https://about.fb.com/news/2026/03/rewarding-original-creators-on-facebook/','Originality requirements; low-value reposting and minor modifications can be deprioritized/demonetized.'],
+      ['29 Jun 2020','Government of India · PIB','Government blocks 59 mobile apps','https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=1635206','Official basis for TikTok’s India block; no official repeal found by research date.'],
+      ['Accessed 2026','Gumroad','Pricing','https://gumroad.com/pricing','10% + $0.50 direct sales; 30% Discover; merchant of record since 2025.'],
+      ['11 Sep 2026','Patreon','Creator fees overview','https://support.patreon.com/hc/en-us/articles/11111747095181-Creator-fees-overview','10% standard platform plan for new creators plus processing/payout costs.'],
+      ['Accessed 2026','itch.io','Creator payments guide','https://itch.io/docs/creators/payments','Open revenue share, processing and merchant-of-record options.'],
+      ['11 Jun 2026','Adobe Stock','Getting paid','https://helpx.adobe.com/stock/contributor/help/getting-paid.html','Payout minimum, waiting period and payment-account requirements.'],
+      ['11 May 2026','Runway','Terms of use','https://runway.com/terms-of-use','Commercial output rights subject to compliance; user input/right-clearance obligations.'],
+      ['11 Mar 2026','Figma','Terms of Service','https://www.figma.com/legal/tos/','Business use and customer-content terms.'],
+      ['Accessed 2026','Blackmagic Design','DaVinci Resolve India','https://www.blackmagicdesign.com/in/products/davinciresolve','Free edition capability and Studio India price.'],
+      ['Accessed 2026','Wise','Receive money for Indian businesses','https://wise.com/in/business/receive-money','Cross-border collection, eligible currencies and eFIRC support subject to eligibility.'],
+      ['Accessed 2026','Stripe India','India pricing / invite status','https://stripe.com/in/pricing','Stripe India pricing and invite-only onboarding status.'],
+      ['Accessed 2026','CBIC','IGST Act Section 2 · export of services','https://taxinformation.cbic.gov.in/content/html/tax_repository/gst/acts/2017_IGST_Act/active/chapteri/section2_v1.00.html','Statutory conditions for export of services.'],
+      ['Budget 2026','Ministry of Finance','Income-tax explanatory memorandum','https://www.indiabudget.gov.in/doc/memo.pdf','FY 2026–27 slab framework; actual liability depends on facts.'],
+      ['11 Aug 2026','CreatorIQ','State of Creators Report 2026','https://www.creatoriq.com/press/releases/creatoriq-state-of-creators-report-2026','Survey of 5,095 creators across 100 regions: income concentration and limited predictability.'],
+      ['29 Jan 2026','GDC','State of the Game Industry 2026','https://gdconf.com/article/gdc-2026-state-of-the-game-industry-reveals-impact-of-layoffs-generative-ai-and-more/','2,300+ professional survey and indie/solo funding risk context.']
+    ];
+    $('#sourceList').innerHTML=sources.map(s=>`<article class="source"><span class="badge fact">${esc(s[0])}</span><div><small>${esc(s[1])}</small><br><a href="${esc(s[3])}" target="_blank" rel="noopener noreferrer">${esc(s[2])}</a></div><p>${esc(s[4])}</p></article>`).join('');
+  })();
+  </script>
+</body>
+</html>
