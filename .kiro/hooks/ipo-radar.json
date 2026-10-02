@@ -1,0 +1,49 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "ipo-guardrails-on-save",
+      "description": "When the agent edits IPO Radar code, config or templates, review the change against the safety boundary and data-source policy.",
+      "trigger": "PostFileSave",
+      "matcher": "ipo-radar/.*\\.(py|toml|ya?ml|json|j2|md)$",
+      "action": {
+        "type": "agent",
+        "prompt": "An IPO Radar file was just edited. Check the change against .kiro/steering/ipo-ground-rules.md and report each violation with file and line: (1) any code or config that places, modifies or cancels bids or orders, or calls a broker order or IPO-apply endpoint such as /ipos/orders; (2) any handling of broker passwords, TOTP secrets, UPI PINs, OTPs or TPINs; (3) any PAN, UPI ID, bank, demat or application number in code, fixtures, config or logs; (4) any HTTP call that does not go through PoliteClient, targets a non-allowlisted source, ignores robots.txt, impersonates a browser, or tries to bypass CAPTCHA or bot protection; (5) hard-coded secrets. Fix violations in the same file. If there are none, reply 'IPO guardrails OK' in one line."
+      },
+      "enabled": true
+    },
+    {
+      "name": "ipo-risk-limits-check",
+      "description": "When the agent edits risk-limits.yaml, sanity-check the values against SEBI limits and the user's plan.",
+      "trigger": "PostFileSave",
+      "matcher": "ipo-radar/config/risk-limits\\.ya?ml$",
+      "action": {
+        "type": "agent",
+        "prompt": "risk-limits.yaml changed. Verify: keys unchanged and version present; max_per_ipo_inr >= one mainboard lot (about 15000) and <= 200000 (retail cap); max_blocked_inr >= max_per_ipo_inr; min_score_watch < min_score_apply <= 20; min_demand_points between 0 and 3; gmp_max_points <= 1; sme_allowed true only if max_per_ipo_inr >= 240000 and the user has explicitly asked for SME; mode is paper or live, and live only if emergency_fund_min_inr is set. Warn in plain English about any risky change (for example, raising the per-IPO cap or allowing SME) and ask the user to confirm. Do not change values yourself."
+      },
+      "enabled": true
+    },
+    {
+      "name": "ipo-spec-traceability",
+      "description": "When the agent edits the IPO Radar requirements or design, check traceability to tasks.",
+      "trigger": "PostFileSave",
+      "matcher": "\\.kiro/specs/ipo-radar/(requirements|design)\\.md$",
+      "action": {
+        "type": "agent",
+        "prompt": "The IPO Radar requirements or design changed. Check that every acceptance criterion in requirements.md uses EARS wording (WHEN/WHILE/IF...THEN/WHERE ... THE IPO_Radar SHALL ...), is addressed in design.md, and is referenced by at least one task in tasks.md (_Requirements: x.y_). Confirm that nothing allows placing bids or storing credentials or personal data. List gaps and propose exact edits to tasks.md; do not write application code."
+      },
+      "enabled": true
+    },
+    {
+      "name": "ipo-tests-after-task",
+      "description": "Run the IPO Radar test suite after each spec task. Disabled until task 1.1 creates the Python project; task 1.4 sets enabled to true.",
+      "trigger": "PostTaskExec",
+      "action": {
+        "type": "command",
+        "command": "cd ipo-radar && uv run pytest -q"
+      },
+      "timeout": 300,
+      "enabled": false
+    }
+  ]
+}

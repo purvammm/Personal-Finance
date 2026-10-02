@@ -1,0 +1,43 @@
+# IPO Radar risk limits: the single source of truth for your rules.
+# Read by Kiro (steering: .kiro/steering/ipo-ground-rules.md) and by the IPO Radar at every run (requirement 5.1).
+# Edit the values, keep the keys. Amounts are in INR. Defaults are deliberately conservative for year one.
+# Example file in a PUBLIC repo: put real budgets only in your private ipo-radar repo.
+
+version: 1
+mode: paper                     # paper | live. Stay on paper for at least 2 weeks of logged decisions.
+
+boards:
+  mainboard_allowed: true
+  sme_allowed: false            # SME minimum is 2 lots (about Rs 2.4-2.9 lakh). Keep false.
+
+category: retail                # retail only (bids up to Rs 2 lakh). No NII/HNI bids.
+lots_per_application: 1         # more retail lots do not raise allotment odds
+
+max_per_ipo_inr: 15000          # one mainboard lot
+max_blocked_inr: 30000          # at most 2 applications blocked at the same time
+max_applications_per_month: 6
+
+scoring:                        # see ipo/04-evaluation-scorecard.md
+  min_score_apply: 14           # out of 20
+  min_demand_points: 2          # factor G (closing-day demand) gate
+  min_score_watch: 10
+  qib_quota_min_pct_for_signal: 30
+  gmp_max_points: 1
+
+stop_rules:
+  losing_streak_pause:
+    count: 3                    # 3 allotted IPOs in a row closing below cost ...
+    pause_days: 30              # ... switch to paper-only for 30 days
+  max_quarterly_loss_inr: 3000  # realised loss beyond this: paper-only until the quarter ends
+
+listing_day_plan:
+  default_exit: sell_first_30_min        # or hold_if_score_16_plus_and_written_thesis
+  below_issue_price: exit_same_day
+  never_average_down: true
+
+budget:
+  ipo_pool_inr: 30000           # money you can afford to lose entirely
+  emergency_fund_min_inr: 40000 # no live applications until your emergency fund reaches this
+
+privacy:
+  ledger_repo_private: false    # set true only in your PRIVATE ipo-radar repo (requirement 7.8)

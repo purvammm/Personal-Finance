@@ -1,0 +1,12 @@
+# This copy lives in a PUBLIC repository: never commit secrets or personal data.
+.env
+*.env
+*.sqlite
+*.db
+.venv/
+__pycache__/
+
+# Personal data (ledger, event log, RHP notes). In your PRIVATE ipo-radar repo,
+# delete the two lines below so CI can commit the event log and ledger there.
+data/
+notes/
