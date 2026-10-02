@@ -13,8 +13,8 @@ Small, ordered steps. Each one ends with green tests. Tasks marked `*` are optio
     - _Requirements: 10.5_
   - [ ] 1.2 Write a config loader with pydantic schemas for `risk-limits.yaml`, `sources.yaml`, `charges.yaml`, `scoring.yaml` and `holidays-2026.yaml`. It fails fast with readable errors.
     - _Requirements: 5.1, 12.6_
-  - [ ] 1.3 Add a guardrail test that fails on order/IPO-apply endpoints, broker order SDK imports or hard-coded secrets.
-    - _Requirements: 11.1, 11.6_
+  - [ ] 1.3 Add a guardrail test that fails on order/IPO-apply endpoints, broker order SDK imports, credential fields (password, TOTP, UPI PIN, OTP, TPIN), personal-identifier patterns (PAN, UPI ID) or hard-coded secrets.
+    - _Requirements: 11.1, 11.2, 11.3, 11.6_
   - [ ] 1.4 Set `"enabled": true` on the `ipo-tests-after-task` hook in `.kiro/hooks/ipo-radar.json`.
 
 - [ ] 2. Models and calendar
@@ -42,8 +42,8 @@ Small, ordered steps. Each one ends with green tests. Tasks marked `*` are optio
     - _Requirements: 1.2, 3.1_
   - [ ] 6.2 `sebi_filings`: DRHP, RHP and prospectus listing pages.
     - _Requirements: 2.1_
-  - [ ] 6.3 `ipowatch`: category subscription, GMP, dates, registrar and the SME list. 2×/day; never touch paths robots.txt blocks.
-    - _Requirements: 3.1, 3.2, 9.2_
+  - [ ] 6.3 `ipowatch`: category subscription, GMP, dates, registrar, anchor details and the SME list. 2×/day; never touch paths robots.txt blocks.
+    - _Requirements: 2.3, 3.1, 3.2, 9.2_
   - [ ] 6.4 `investorgain`: GMP cross-check source.
     - _Requirements: 3.2, 3.3_
   - [ ] 6.5 `nse_bhavcopy`: end-of-day prices for listings.
@@ -77,15 +77,15 @@ Small, ordered steps. Each one ends with green tests. Tasks marked `*` are optio
 - [ ] 10. Rendering
   - [ ] 10.1 Digest template: sections, ordering, the SME count line, "nothing to act on", and the risk-limits line.
     - _Requirements: 1.1–1.8, 5.6_
-  - [ ] 10.2 Fact cards (Markdown and Telegram summary), closing-day update, allotment and listing reminders, weekly preview.
-    - _Requirements: 2.6, 3.4, 3.5, 6.4_
+  - [ ] 10.2 Fact cards (Markdown and Telegram summary), closing-day update, allotment reminders (with direct registrar links; registrar pages are never automated), listing reminders, weekly preview.
+    - _Requirements: 2.6, 3.4, 3.5, 6.4, 9.7_
   - [ ]* 10.3 Property test for message size ≤4,000 characters (Property 8).
 
 - [ ] 11. Notifications
   - [ ] 11.1 Telegram notifier with retries and backoff, deduplicated through `alert_log`.
     - _Requirements: 6.1, 6.5_
-  - [ ] 11.2 Email fallback over SMTP with an app password.
-    - _Requirements: 6.2_
+  - [ ] 11.2 Email fallback over SMTP with an app password. Keep the WhatsApp channel disabled; if it is ever enabled, use only the official Business Platform with approved templates.
+    - _Requirements: 6.2, 6.3_
   - [ ] 11.3 Mandatory APPLY footer; mask secrets in all logs.
     - _Requirements: 6.6, 11.4_
   - [ ]* 11.4 Property test that no secrets leak (Property 9).
@@ -102,8 +102,8 @@ Small, ordered steps. Each one ends with green tests. Tasks marked `*` are optio
 - [ ] 13. Listing performance and market mood
   - [ ] 13.1 Rolling 30/90-day stats for mainboard and SME, plus a mood line with the Nifty 50 30-day change.
     - _Requirements: 8.2, 8.3_
-  - [ ] 13.2 Calibration store (GMP error, score vs outcome) and a monthly paper-vs-real report.
-    - _Requirements: 7.7, 8.4_
+  - [ ] 13.2 Calibration store (final subscription, pre-listing GMP and its error, score vs outcome) and a monthly paper-vs-real report.
+    - _Requirements: 3.6, 7.7, 8.4_
 
 - [ ] 14. Scheduling and go-live
   - [ ] 14.1 `radar run --job {morning,closing,listing,evening,weekly}` with the trading-day gate, late-start note and `--dry-run`.
