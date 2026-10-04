@@ -3,7 +3,7 @@
 Small, ordered steps. Each one ends with green tests. Tasks marked `*` are optional property-based tests. The **checkpoints** are where you review before I continue. Nothing here places bids (Req 11.1).
 
 - [ ] 0. Set up the private repository (you do this; I can't create secrets)
-  - [ ] 0.1 Create a private GitHub repo `ipo-radar`. Copy into it: `.kiro/specs/ipo-radar/`, `.kiro/steering/ipo-ground-rules.md`, `.kiro/steering/ipo-routine.md`, `.kiro/hooks/ipo-radar.json` and `ipo-radar/config/risk-limits.yaml`.
+  - [ ] 0.1 Create a private GitHub repo `ipo-radar`. Copy into it: `.kiro/specs/ipo-radar/`, `.kiro/steering/ipo-ground-rules.md`, `.kiro/steering/ipo-routine.md`, `.kiro/hooks/ipo-radar.json`, `ipo-radar/config/risk-limits.yaml` and the `ipo/` folder (the steering and the scorer read the scorecard in `ipo/04-evaluation-scorecard.md`). Keep the same folder layout so the steering file references and hook matchers still resolve.
     - _Requirements: 11.5_
   - [ ] 0.2 Create a Telegram bot with @BotFather and get your chat ID. Add GitHub Actions secrets `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`, plus optional `SMTP_USER` and `SMTP_APP_PASSWORD`.
     - _Requirements: 6.1, 6.2, 11.4_

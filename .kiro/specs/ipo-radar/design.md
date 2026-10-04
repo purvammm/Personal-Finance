@@ -100,6 +100,8 @@ class Notifier(Protocol):
 
 **Registrar allotment pages** (MUFG Intime, KFin, Bigshare, etc.) use CAPTCHAs. They are not automated; alerts link to them instead (Req 9.7).
 
+**Retest on 4 Oct 2026 (another cloud IP):** both NSE endpoints (`api/ipo-current-issue` and the bhavcopy archive) timed out with a descriptive User-Agent, while `robots.txt`, SEBI, ipowatch (pages and `/feed/`) and InvestorGain answered 200. Treat NSE as optional from CI: the Digest must still go out without it, with the health alert from Req 10.3 and no APPLY on stale demand data (Req 10.4). Never switch to a browser User-Agent or cookie tricks to get through (Req 9.3, 9.6).
+
 ### Reconciliation
 
 - **Identity:**
@@ -176,7 +178,7 @@ Every result is stored with an `inputs_hash`, so score changes are auditable (Re
 
 | Job | IST | `cron` (UTC) | Runs when |
 |---|---|---|---|
-| morning | 07:37 Mon–Fri | `37 2 * * 1-5` | Trading day: full fetch, Digest |
+| morning | 07:37 Mon–Fri | `7 2 * * 1-5` | Trading day: full fetch, Digest |
 | closing | 14:12 Mon–Fri | `42 8 * * 1-5` | An IPO closes today: snapshot, rescore, closing update |
 | listing | 08:47 Mon–Fri | `17 3 * * 1-5` | An IPO lists today: reminder with your written exit plan |
 | evening | 18:37 Mon–Fri | `7 13 * * 1-5` | Final subscription, T+1 allotment reminders, bhavcopy, health |
