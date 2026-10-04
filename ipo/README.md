@@ -2,6 +2,8 @@
 
 Answers to the [IPO prompt pack](00-prompt-pack.md), researched live on **Friday 2 October 2026** (an NSE/BSE holiday). Anything time-sensitive (IPO dates, subscription, GMP, fees, tax rates) must be re-checked before you act. This is research and a decision framework, **not investment advice**; I'm not a SEBI-registered adviser.
 
+**Start here:** [`ipo-start-to-automation-guide.html`](ipo-start-to-automation-guide.html) is one self-contained page (download it and open it in a browser) that walks through everything below in order: checks, account opening, the routine for each IPO, tax, and five levels of automation. It includes tools (money plan, scorecard, P&L and tax, journal, calendar reminders) and the [IPO Radar Lite](../ipo-radar/lite/) Telegram starter. Facts re-checked on 4 October 2026.
+
 ## Files
 
 | # | File | Answers |
@@ -16,8 +18,10 @@ Answers to the [IPO prompt pack](00-prompt-pack.md), researched live on **Friday
 | 5 | [`.kiro/steering/`](../.kiro/steering/), [`.kiro/hooks/`](../.kiro/hooks/), [`ipo-radar/config/`](../ipo-radar/config/) | Prompt 5: ground rules, `/ipo-routine` command, hooks, risk limits |
 | 6 | [06-routine-2026-10-02.md](06-routine-2026-10-02.md) | Prompt 6: first routine run (2 Oct 2026) |
 | 7 | [07-money-plan.md](07-money-plan.md) | Prompt 7: risk rules, money plan, tax records, NRI/Canada |
+| — | [ipo-start-to-automation-guide.html](ipo-start-to-automation-guide.html) | All of the above as one step-by-step guide with tools, plus automation levels 0–4 |
+| — | [`ipo-radar/lite/`](../ipo-radar/lite/) | IPO Radar Lite: Telegram reminders from a watchlist via GitHub Actions (run it from a private repo) |
 
-Suggested reading order: 1 → 7 → 2 → 3 → 4 → 6 → 5.
+Suggested reading order: the HTML guide, or 1 → 7 → 2 → 3 → 4 → 6 → 5.
 
 ## The short version
 
