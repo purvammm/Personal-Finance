@@ -1,0 +1,60 @@
+# IPO Radar Lite: GitHub Actions schedule (template).
+# In your PRIVATE repo, save this file as .github/workflows/radar-lite.yml
+# It only sends Telegram reminders. It never places bids or orders.
+#
+# GitHub cron runs in UTC. India (IST) = UTC + 5:30, no daylight saving.
+# Scheduled runs can start late on busy days, so keep your phone alarms too.
+
+name: IPO Radar Lite
+
+on:
+  schedule:
+    - cron: "7 2 * * 1-5"    # 07:37 IST Mon-Fri: morning digest
+    - cron: "42 8 * * 1-5"   # 14:12 IST Mon-Fri: closing-day nudge (sent only if something closes today)
+    - cron: "37 12 * * 0"    # 18:07 IST Sunday: week ahead
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "Which message to send"
+        type: choice
+        options: [test, chat-id, auto, morning, closing, weekly]
+        default: test
+      dry_run:
+        description: "Only print the message in the log"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ipo-radar-lite
+  cancel-in-progress: false
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Refuse to run from a public repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "$(gh api "repos/$GITHUB_REPOSITORY" --jq .private)" != "true" ]; then
+            echo "::error::This repository is public. Run the bot and keep watchlist.csv in a PRIVATE repo."
+            exit 1
+          fi
+
+      - name: Self-test
+        run: python3 ipo-radar/lite/radar_lite.py --self-test
+
+      - name: Send the reminder
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          JOB: ${{ inputs.job || 'auto' }}
+          DRY_RUN: ${{ inputs.dry_run && '--dry-run' || '' }}
+        run: python3 ipo-radar/lite/radar_lite.py --job "$JOB" $DRY_RUN
