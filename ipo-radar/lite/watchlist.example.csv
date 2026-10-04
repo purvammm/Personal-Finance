@@ -1,0 +1,6 @@
+name,board,open,close,allotment,listing,lot_size,price_high,registrar,label,score,status,exit_plan,notes
+Orient Cables,mainboard,2026-09-25,2026-09-29,,,,272,,,,paper,sell_first_30_min,Calibration: write your guess of the opening price before 09:00
+SRIT India,mainboard,2026-09-28,2026-09-30,,,,130,,,,paper,sell_first_30_min,Calibration: 5% listing-day band (issue under Rs 250 crore)
+Vishal Nirmiti,mainboard,2026-09-30,2026-10-05,,,68,220,,skip,3,paper,sell_first_30_min,Re-score Monday after 14:00 with day-3 numbers
+Nityas Gems and Jewellery,mainboard,2026-09-30,2026-10-05,,,200,75,,skip,5,paper,sell_first_30_min,Reg 6(2) issue: needs 75% QIB; watch for knock-out K6
+Jio Platforms,mainboard,2026-10-21,2026-10-23,,,,,,watch,,watching,,Dates are reported not confirmed: update after the RHP and price band
